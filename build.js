@@ -66,8 +66,9 @@ function buildArchives(pages) {
 
   for (const page of pages) {
     const p = page.properties;
-    const cat = text(p["分類"]) || "經典女裝";
-    if (groups[cat]) groups[cat].push(p);
+    const cat = text(p["分類"]) || "";
+    if (!groups[cat]) continue;
+    groups[cat].push(p);
   }
 
   let html = "";
@@ -109,18 +110,18 @@ function buildArchives(pages) {
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 發布
 function buildAtelier(pages) {
   const modules = {
-    "A-01":{ label:"版型分類", tag:"t-sil", tagText:"SILHOUETTE" },
-    "A-02":{ label:"面料車間", tag:"t-fab", tagText:"FABRIC" },
-    "A-03":{ label:"剪裁工藝", tag:"t-tai", tagText:"TAILORING" },
-    "A-04":{ label:"色彩系統", tag:"t-col", tagText:"COLOR LAB" },
-    "A-05":{ label:"五金配飾", tag:"t-fin", tagText:"FINDINGS" },
+    "基礎版型":{ label:"", tag:"t-sil", tagText:"SILHOUETTE" },
+    "材質面料":{ label:"", tag:"t-fab", tagText:"FABRIC" },
+    "剪裁細節":{ label:"", tag:"t-tai", tagText:"TAILORING" },
+    "顏色系統":{ label:"", tag:"t-col", tagText:"COLOR LAB" },
+    "其他點綴":{ label:"", tag:"t-fin", tagText:"FINDINGS" },
   };
 
   // 篩選按鈕
   let html = `<div class="ate-filter-bar">
     <button class="ate-tag active" data-mod="all" onclick="ateFilter(this,'all')">全部</button>`;
   for (const [mod, { label, tag, tagText }] of Object.entries(modules)) {
-    html += `<button class="ate-tag" data-mod="${mod}" onclick="ateFilter(this,'${mod}')"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;">${tagText}</span> ${esc(label)}</button>`;
+    html += `<button class="ate-tag" data-mod="${mod}" onclick="ateFilter(this,'${mod}')"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;">${tagText}</span> ${esc(mod)}</button>`;
   }
   html += `</div>`;
 
@@ -129,6 +130,8 @@ function buildAtelier(pages) {
   for (const page of pages) {
     const p      = page.properties;
     const mod    = text(p["分類"]) || "";
+    // 跳過不在模組清單裡的分類（包含無分類）
+    if (!modules[mod]) continue;
     const zh     = text(p["中文名稱"]);
     const en     = text(p["Name"]);
     const prompt = text(p["Prompt Tags"]);
