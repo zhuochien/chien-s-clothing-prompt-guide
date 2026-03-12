@@ -105,7 +105,7 @@ function buildArchives(pages) {
   return html;
 }
 
-// 02 製衣工廠
+// 02 製衣工坊
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 發布
 function buildAtelier(pages) {
   const modules = {
@@ -115,75 +115,90 @@ function buildAtelier(pages) {
     "A-04":{ label:"色彩系統", tag:"t-col", tagText:"COLOR LAB" },
     "A-05":{ label:"五金配飾", tag:"t-fin", tagText:"FINDINGS" },
   };
-  const groups = {};
-  for (const key of Object.keys(modules)) groups[key] = [];
 
+  // 篩選按鈕
+  let html = `<div class="ate-filter-bar">
+    <button class="ate-tag active" data-mod="all" onclick="ateFilter(this,'all')">全部</button>`;
+  for (const [mod, { label, tag, tagText }] of Object.entries(modules)) {
+    html += `<button class="ate-tag" data-mod="${mod}" onclick="ateFilter(this,'${mod}')"><span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;">${tagText}</span> ${esc(label)}</button>`;
+  }
+  html += `</div>`;
+
+  // 詞條列表
+  html += `<div id="ate-list" class="ate-list">`;
   for (const page of pages) {
-    const p = page.properties;
-    const mod = text(p["分類"]);
-    if (groups[mod]) groups[mod].push(p);
-  }
+    const p      = page.properties;
+    const mod    = text(p["分類"]) || "";
+    const zh     = text(p["中文名稱"]);
+    const en     = text(p["Name"]);
+    const prompt = text(p["Prompt Tags"]);
+    const note   = text(p["備註"]);
+    const { tag="", tagText="" } = modules[mod] || {};
 
-  let html = "";
-  for (const [mod, items] of Object.entries(groups)) {
-    if (!items.length) continue;
-    const { label, tag, tagText } = modules[mod];
-    const anchorId = `m-${mod.toLowerCase().replace("-","")}`;
-    html += `<div id="${anchorId}" class="cat-group"><div class="cg-head"><span class="cg-title">${mod} ${esc(label)}</span><span class="mtag ${tag}">${tagText}</span><span class="cg-count">${items.length} 詞條</span></div><div class="item-row">`;
-    for (const p of items) {
-      const zh = esc(text(p["中文名稱"]));
-      const en = esc(text(p["Name"]));
-      const prompt = esc(text(p["Prompt Tags"]));
-      html += `<div class="fi"><div class="fi-img"><div class="fi-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>示意圖</span></div></div><div class="fi-info"><div class="fi-en">${en}</div><div class="fi-zh">${zh}</div><div class="fi-prompt">${prompt}</div></div><div class="fi-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div>`;
-    }
-    html += `</div></div>`;
+    html += `
+<div class="ate-entry" data-mod="${esc(mod)}">
+  <div class="ate-entry-head">
+    <span class="ate-en">${esc(en)}</span>
+    <span class="ate-zh">${esc(zh)}</span>
+    <span class="mtag ${tag}" style="font-size:.55rem;padding:.1rem .35rem;margin-left:auto;">${tagText}</span>
+  </div>
+  <div class="ate-prompt">${esc(prompt)}</div>
+  ${note ? `<div class="ate-note">${esc(note)}</div>` : ""}
+  <div class="ate-foot"><button class="cp-btn" onclick="cp(this,'${esc(prompt)}')">COPY</button></div>
+</div>`;
   }
+  html += `</div>`;
   return html;
 }
 
 // 03 成衣收藏
-// 欄位：序號 主題(title) 人數 節日屬性 服裝標籤 發布 Prompt pixAI衣櫃 pixAI連結
+// 欄位：序號 系列名稱(title) 系列(select) 人數 節日屬性 服裝標籤 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
+  // 依「系列」select 欄位分組
   const groups = {};
+  const order  = [];
   for (const page of pages) {
-    const p = page.properties;
-    const tags = text(p["服裝標籤"]) || [];
-    const key = tags[0] || "其他";
-    if (!groups[key]) groups[key] = [];
+    const p   = page.properties;
+    const key = text(p["系列"]) || "其他";
+    if (!groups[key]) { groups[key] = []; order.push(key); }
     groups[key].push(p);
   }
 
   let html = "";
-  let idx = 0;
-  for (const [series, items] of Object.entries(groups)) {
-    const anchorId = `rtw-s${idx}`;
-    const seriesLabel = `系列${["一","二","三","四","五","六","七","八","九","十"][idx] || idx+1}`;
-    idx++;
-    html += `<div id="${anchorId}" style="margin-top:2.5rem;"><div class="sub-label"><span class="sub-code">${seriesLabel}</span><span style="font-size:.75rem;color:var(--muted);margin-left:.5rem;">${esc(series)}</span></div><div class="card-grid">`;
+  for (const series of order) {
+    const items    = groups[series];
+    const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
+
+    html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
+    html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
+    html += `<div class="rtw-catalog">`;
 
     for (const p of items) {
-      const title   = esc(text(p["主題"]));
-      const prompt  = esc(text(p["Prompt"]));
-      const imgs    = text(p["pixAI衣櫃"]) || [];
+      const name     = esc(text(p["系列名稱"]));
+      const prompt   = esc(text(p["Prompt"]));
+      const imgs     = text(p["pixAI衣櫃"]) || [];
+      const img0     = imgs[0] || "";
       const pixaiUrl = p["pixAI連結"]?.url || "";
-      const people  = (text(p["人數"]) || []).join("、");
-      const holiday = (text(p["節日屬性"]) || []).join("、");
-      const tagChips = (text(p["服裝標籤"]) || []).map(t => `<span class="wt-chip">${esc(t)}</span>`).join("");
-      const models  = ["Model A","Model B","Model C","Model D"];
+      const people   = (text(p["人數"])     || []).join("、");
+      const holiday  = (text(p["節日屬性"]) || []).join("、");
+      const tagChips = (text(p["服裝標籤"]) || []).map(t => `<span class="rtw-tag">${esc(t)}</span>`).join("");
 
-      html += `<div class="fc"><div class="fc-head"><div class="fc-title">${title}</div><div class="fc-sub">${seriesLabel} · ${esc(series)}</div></div>`;
-      html += `<div class="wt-strip"><span class="wt-lbl">TAGS</span>${tagChips}${people ? `<span class="wt-chip">${esc(people)}</span>` : ""}${holiday ? `<span class="wt-chip">${esc(holiday)}</span>` : ""}</div>`;
-      html += `<div class="prompt-box"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
-      if (pixaiUrl) {
-        html += `<div style="padding:.4rem 1rem .6rem;"><a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a></div>`;
+      html += `
+<div class="rtw-card">
+  <div class="rtw-img">`;
+      if (img0) {
+        html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
+      } else {
+        html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
       }
-      html += `<div class="tg4">`;
-      for (let i = 0; i < 4; i++) html += imgCell(imgs[i] || "", models[i]);
-      html += `</div><button class="xbtn" onclick="toggleX(this)">展開模型備註 <span class="ea">▾</span></button><div class="xpanel"><table class="xtable"><thead><tr><th>模型</th><th>圖例</th><th>備註</th></tr></thead><tbody>`;
-      for (let i = 0; i < 4; i++) {
-        html += `<tr><td><span class="mn">${models[i]}</span></td><td>${imgs[i] ? `<img src="${esc(imgs[i])}" style="width:52px;height:65px;object-fit:cover;border-radius:2px;">` : ""}</td><td class="nt">—</td></tr>`;
-      }
-      html += `</tbody></table></div></div>`;
+      html += `</div>
+  <div class="rtw-body">
+    <div class="rtw-name">${name}</div>
+    <div class="rtw-meta">${tagChips}${people ? `<span class="rtw-tag">${esc(people)}</span>` : ""}${holiday ? `<span class="rtw-tag">${esc(holiday)}</span>` : ""}</div>
+    <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>
+    ${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}
+  </div>
+</div>`;
     }
     html += `</div></div>`;
   }

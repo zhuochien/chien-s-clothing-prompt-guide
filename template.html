@@ -245,6 +245,34 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 /* ── FOOTER ── */
 footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
 
+/* ── 製衣工坊 篩選 ── */
+.ate-filter-bar{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 0 1.2rem;}
+.ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
+.ate-tag:hover,.ate-tag.active{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
+.ate-list{display:flex;flex-direction:column;gap:.5rem;}
+.ate-entry{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem;transition:border .15s;}
+.ate-entry:hover{border-color:var(--gold);}
+.ate-entry[style*="none"]{display:none;}
+.ate-entry-head{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.35rem;flex-wrap:wrap;}
+.ate-en{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;}
+.ate-zh{font-size:.78rem;color:var(--muted);}
+.ate-prompt{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--rust);letter-spacing:.03em;line-height:1.5;margin-bottom:.3rem;}
+.ate-note{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.3rem;}
+.ate-foot{display:flex;justify-content:flex-end;}
+
+/* ── 成衣收藏 型錄卡 ── */
+.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
+.rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
+.rtw-img{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);}
+.rtw-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.rtw-card:hover .rtw-img img{transform:scale(1.03);}
+.rtw-img-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;opacity:.2;}
+.rtw-img-ph svg{width:36px;height:36px;}
+.rtw-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
+.rtw-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;}
+.rtw-meta{display:flex;flex-wrap:wrap;gap:.3rem;}
+.rtw-tag{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.1rem .45rem;font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
+
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .intro-wrap{grid-template-columns:1fr;}
@@ -264,6 +292,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .bkd-cols{grid-template-columns:1fr;}
   .arc-grid,.item-row{grid-template-columns:repeat(2,1fr);}
   .card-grid{grid-template-columns:1fr;}
+  .rtw-catalog{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -279,7 +308,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 <nav class="main-nav">
   <button class="active" onclick="goTab('intro',this)">說明</button>
   <button onclick="goTab('archives',this)">基礎衣櫃</button>
-  <button onclick="goTab('atelier',this)">製衣工廠</button>
+  <button onclick="goTab('atelier',this)">製衣工坊</button>
   <button onclick="goTab('rtw',this)">成衣收藏</button>
 </nav>
 
@@ -382,7 +411,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <button class="inc2" onclick="goTabByID('atelier')">
         <div class="inc2-num">02</div>
         <span class="inc2-en">The Atelier</span>
-        <div class="inc2-title">製衣工廠</div>
+        <div class="inc2-title">製衣工坊</div>
         <div class="inc2-desc">五大模組元件：版型、面料、剪裁、色彩、配飾，附拆解對照圖。</div>
         <span class="inc2-arr">→</span>
       </button>
@@ -504,7 +533,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div class="step2">
         <div class="step2-n">2</div>
         <div class="step2-body">
-          <strong>進製衣工廠挑模組</strong>
+          <strong>進製衣工坊挑模組</strong>
           <p>按 A-01 版型 → A-02 面料 → A-03 剪裁 → A-04 色彩 → A-05 配飾的順序，各選 1–2 個詞條拼成提示詞草稿。</p>
         </div>
       </div>
@@ -599,7 +628,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-num">02</div>
     <div class="sec-info">
       <span class="sec-en">The Atelier — Production Line</span>
-      <h2>製衣工廠</h2>
+      <h2>製衣工坊</h2>
       <p>模組化元件組合，手動建構服裝細節。五大模組分類瀏覽，<br>附「拆解式對照圖」示範同版型換面料 / 同面料換色號。</p>
     </div>
   </div>
@@ -703,6 +732,15 @@ function filterArc(btn,cat){
   btn.classList.add('active');
   document.querySelectorAll('#archives [data-acat]').forEach(g=>{
     g.style.display=(cat==='all'||g.dataset.acat===cat)?'':'none';
+  });
+}
+
+// 製衣工坊篩選
+function ateFilter(btn, mod){
+  document.querySelectorAll('.ate-tag').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ate-entry').forEach(el=>{
+    el.style.display = (mod==='all' || el.dataset.mod===mod) ? '' : 'none';
   });
 }
 </script>
