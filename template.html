@@ -103,6 +103,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 /* ── PROMPT BOX ── */
 .prompt-box{padding:.75rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem;}
 .pt{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
+.pt-toggle{display:none;font-size:.65rem;color:var(--gold);cursor:pointer;white-space:nowrap;padding:.1rem .3rem;}
 
 /* ── THUMB GRID ── */
 .tg5{display:grid;grid-template-columns:repeat(5,1fr);gap:0;}
@@ -335,7 +336,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
   .pt.expanded{display:block !important;overflow:visible;}
   .prompt-box{flex-wrap:wrap;gap:.4rem;}
-  .prompt-box .pt{width:100%;min-width:0;}
+  .prompt-box .pt{width:100%;min-width:0;flex:none;}
+  .prompt-box .pt-toggle{margin-left:auto;}
 }
 </style>
 </head>
