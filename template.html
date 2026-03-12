@@ -333,9 +333,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .rtw-body{padding:.7rem .8rem;}
   .pt-toggle{display:inline-block;}
   .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
-  .pt.expanded{display:block !important;-webkit-line-clamp:unset;overflow:visible;}
-  .pt.expanded{display:block;-webkit-line-clamp:unset;}
-  .pt-toggle{display:none;margin-left:.3rem;font-size:.65rem;color:var(--gold);cursor:pointer;white-space:nowrap;}
+  .pt.expanded{display:block !important;overflow:visible;}
   .prompt-box{flex-wrap:wrap;gap:.4rem;}
   .prompt-box .pt{width:100%;min-width:0;}
 }
@@ -605,10 +603,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   <div class="with-sidebar">
     <div class="sidebar">
       <div class="sb-box" id="ate-toc">
-        <div class="sb-head" onclick="toggleAteInfo()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
-          <span>MODULES</span><span id="ate-info-arrow" style="font-size:.7rem;opacity:.5;">▼</span>
+        <div class="sb-head">MODULES</div>
+        <div class="sb-link" onclick="toggleAteInfo(this)" style="justify-content:space-between;color:var(--muted);font-size:.7rem;letter-spacing:.05em;">
+          <span>欄目說明</span><span id="ate-info-arrow">▼</span>
         </div>
-        <div id="ate-info" style="display:none;border-bottom:1px solid var(--border);">
+        <div id="ate-info" style="display:none;border-top:1px solid var(--border);">
           <div style="padding:.6rem .9rem;display:flex;flex-direction:column;gap:.5rem;">
             <div class="ate-info-row"><span class="mtag t-sil" style="font-size:.5rem;padding:.15rem .4rem;">SILHOUETTE</span><span class="ate-info-zh">基礎版型</span><span class="ate-info-note">決定服裝基底</span></div>
             <div class="ate-info-row"><span class="mtag t-fab" style="font-size:.5rem;padding:.15rem .4rem;">FABRIC</span><span class="ate-info-zh">材質面料</span><span class="ate-info-note">影響光影與圖案紋理</span></div>
@@ -704,12 +703,13 @@ function toggleX(btn){
   p.classList.toggle('open',!o);
   btn.classList.toggle('open',!o);
 }
-function toggleAteInfo(){
+function toggleAteInfo(btn){
   const panel=document.getElementById('ate-info');
   const arrow=document.getElementById('ate-info-arrow');
   const open=panel.style.display==='none';
   panel.style.display=open?'block':'none';
   arrow.textContent=open?'▲':'▼';
+  btn.classList.toggle('active',open);
 }
 function togglePt(el){
   const pt=el.previousElementSibling;
