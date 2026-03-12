@@ -180,8 +180,8 @@ function buildRTW(pages) {
       const imgs     = text(p["pixAI衣櫃"]) || [];
       const img0     = imgs[0] || "";
       const pixaiUrl = p["pixAI連結"]?.url || "";
-      const _gArr    = text(p["性別"]);
-      const genders  = (Array.isArray(_gArr) ? _gArr : []).map(g => `<span class="rtw-tag">${esc(g)}</span>`).join("");
+      const _gender  = text(p["性別"]);
+      const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
  
       html += `
 <div class="rtw-card">
