@@ -153,7 +153,7 @@ function buildAtelier(pages) {
 }
 
 // 03 成衣型錄
-// 欄位：序號 系列名稱(title) 系列(select) 性別 服裝標籤 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
+// 欄位：序號 名稱(title) 系列(select) 性別(multi-select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
 function buildRTW(pages) {
   // 依「系列」select 欄位分組
   const groups = {};
@@ -164,25 +164,24 @@ function buildRTW(pages) {
     if (!groups[key]) { groups[key] = []; order.push(key); }
     groups[key].push(p);
   }
-
+ 
   let html = "";
   for (const series of order) {
     const items    = groups[series];
     const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
-
+ 
     html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
     html += `<div class="rtw-catalog">`;
-
+ 
     for (const p of items) {
-      const name     = esc(text(p["系列名稱"]));
+      const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
       const imgs     = text(p["pixAI衣櫃"]) || [];
       const img0     = imgs[0] || "";
       const pixaiUrl = p["pixAI連結"]?.url || "";
-      const gender   = (text(p["性別"])     || []);
-      const tagChips = (text(p["服裝標籤"]) || []).map(t => `<span class="rtw-tag">${esc(t)}</span>`).join("");
-
+      const genders  = (text(p["性別"]) || []).map(g => `<span class="rtw-tag">${esc(g)}</span>`).join("");
+ 
       html += `
 <div class="rtw-card">
   <div class="rtw-img">`;
@@ -194,7 +193,7 @@ function buildRTW(pages) {
       html += `</div>
   <div class="rtw-body">
     <div class="rtw-name">${name}</div>
-    <div class="rtw-meta">${tagChips}${gender ? `<span class="rtw-tag">${esc(gender)}</span>` : ""}</div>
+    ${genders ? `<div class="rtw-meta">${genders}</div>` : ""}
     <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>
     ${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}
   </div>
@@ -204,7 +203,7 @@ function buildRTW(pages) {
   }
   return html;
 }
-
+ 
 async function main() {
   console.log("📦 抓取 Notion 資料...");
   const [archivesPages, atelierPages, rtwPages] = await Promise.all([
@@ -213,19 +212,20 @@ async function main() {
     fetchDB(DB.rtw),
   ]);
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
-  console.log(`✅ 製衣工廠：${atelierPages.length} 筆`);
+  console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
   console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
-
+ 
   let template = fs.readFileSync("template.html", "utf8");
   template = template
     .replace("<!-- ARCHIVES_CONTENT -->", buildArchives(archivesPages))
     .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
     .replace("<!-- RTW_CONTENT -->",      buildRTW(rtwPages))
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
-
+ 
   if (!fs.existsSync("dist")) fs.mkdirSync("dist");
   fs.writeFileSync("dist/index.html", template, "utf8");
   console.log("🎉 dist/index.html 產生完成！");
 }
-
+ 
 main().catch(err => { console.error("❌ 錯誤：", err); process.exit(1); });
+ 
