@@ -324,7 +324,14 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .bkd-cols{grid-template-columns:1fr;}
   .arc-grid,.item-row{grid-template-columns:repeat(2,1fr);}
   .card-grid{grid-template-columns:1fr;}
-  .rtw-catalog{grid-template-columns:repeat(2,1fr);}
+  .rtw-catalog{grid-template-columns:1fr;}
+  .rtw-card{flex-direction:row;}
+  .rtw-img{width:110px;min-width:110px;aspect-ratio:unset;height:auto;min-height:140px;}
+  .rtw-body{padding:.7rem .8rem;}
+  .pt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-all;}
+  .pt.expanded{display:block;-webkit-line-clamp:unset;}
+  .pt-toggle{display:inline-block;margin-left:.3rem;font-size:.65rem;color:var(--gold);cursor:pointer;white-space:nowrap;}
+  .prompt-box{flex-wrap:wrap;gap:.4rem;}
 }
 </style>
 </head>
@@ -693,6 +700,11 @@ function toggleX(btn){
   const o=p.classList.contains('open');
   p.classList.toggle('open',!o);
   btn.classList.toggle('open',!o);
+}
+function togglePt(el){
+  const pt=el.previousElementSibling;
+  pt.classList.toggle('expanded');
+  el.textContent=pt.classList.contains('expanded')?'收合':'展開';
 }
 function cp(btn,text){
   navigator.clipboard.writeText(text).then(()=>{
