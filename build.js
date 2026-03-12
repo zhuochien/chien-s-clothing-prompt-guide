@@ -109,11 +109,11 @@ function buildArchives(pages) {
 // 欄位：分類 中文名稱(title) Name Prompt Tags 備註 發布
 function buildAtelier(pages) {
   const modules = {
-    "A-01":{ label:"版型分類", tag:"t-sil", tagText:"SILHOUETTE" },
-    "A-02":{ label:"面料車間", tag:"t-fab", tagText:"FABRIC" },
-    "A-03":{ label:"剪裁工藝", tag:"t-tai", tagText:"TAILORING" },
-    "A-04":{ label:"色彩系統", tag:"t-col", tagText:"COLOR LAB" },
-    "A-05":{ label:"五金配飾", tag:"t-fin", tagText:"FINDINGS" },
+    "A-01":{ label:"基礎版型", tag:"t-sil", tagText:"SILHOUETTE" },
+    "A-02":{ label:"材質面料", tag:"t-fab", tagText:"FABRIC" },
+    "A-03":{ label:"剪裁細節", tag:"t-tai", tagText:"TAILORING" },
+    "A-04":{ label:"顏色系統", tag:"t-col", tagText:"COLOR LAB" },
+    "A-05":{ label:"其他點綴", tag:"t-fin", tagText:"FINDINGS" },
   };
   const groups = {};
   for (const key of Object.keys(modules)) groups[key] = [];
@@ -166,7 +166,7 @@ function buildRTW(pages) {
       const prompt  = esc(text(p["Prompt"]));
       const imgs    = text(p["pixAI衣櫃"]) || [];
       const pixaiUrl = p["pixAI連結"]?.url || "";
-      const people  = (text(p["人數"]) || []).join("、");
+      const people  = (text(p["性別"]) || []).join("、");
       const holiday = (text(p["節日屬性"]) || []).join("、");
       const tagChips = (text(p["服裝標籤"]) || []).map(t => `<span class="wt-chip">${esc(t)}</span>`).join("");
       const models  = ["Model A","Model B","Model C","Model D"];
