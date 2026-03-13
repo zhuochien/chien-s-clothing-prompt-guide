@@ -426,7 +426,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   <button onclick="goTab('atelier',this)">製衣工坊</button>
   <button onclick="goTab('outfits',this)">成衣型錄</button>
   <button onclick="goTab('salon',this)">寫真沙龍</button>
-  <button onclick="goTab('qa',this)">QA</button>
+  <button onclick="goTab('qa',this)">常見問題</button>
 </nav>
 
 <!-- ══════════ INTRO ══════════ -->
@@ -789,7 +789,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
     <!-- 左側分類 -->
     <div class="qa-cat-list" id="qa-cats">
-      <button class="qa-cat-btn active" onclick="qaScroll('qa-quality',this)">圖面品質</button>
+      <button class="qa-cat-btn active" onclick="qaScroll('qa-usage',this)">基本 QA</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-quality',this)">圖面品質</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-clothing',this)">服裝生成</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-model',this)">模型選擇</button>
       <button class="qa-cat-btn" onclick="qaScroll('qa-misc',this)">其他問題</button>
@@ -798,34 +799,84 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <!-- 右側問答 -->
     <div>
 
+      <!-- 使用說明 -->
+      <div class="qa-group" id="qa-usage">
+        <div class="qa-group-title">BASIC Q&amp;A — 基本 QA</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 要怎麼用？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">點擊任一卡片右下角的 <strong>COPY</strong> 按鈕，prompt 就會複製到剪貼簿。<br>直接貼到 pixAI 或其他算圖工具的正向 prompt 欄位即可。<br>建議在最前面放你自己的人設描述，再接服裝詞條。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">（人設）是什麼意思？要怎麼填？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">「人設」是指你的角色基本外觀描述，例如髮色、髮型、眼睛顏色、身材特徵等固定詞條，把這些詞統稱為「人設」。<br><br>把人設放在服裝 prompt 前面，模型才能在套上衣服的同時維持角色外觀。<br><br>範例：<code>1girl, long black hair, blue eyes, maid dress, white apron</code><br>其中 <code>1girl, long black hair, blue eyes</code> 就是人設的部分。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">經典衣櫃和成衣型錄有什麼差別？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">· <strong>經典衣櫃</strong> — 收錄模型本來就認識的服裝詞組，例如護士裝就是從護士帽到鞋子的完整一套詞條，可以直接套用或拆開使用<br>· <strong>成衣型錄</strong> — 作者自己嘗試組合出來的穿搭詞條，是用製衣工坊的概念拼湊出的新組合<br><br>想找現成認識度高的服裝用經典衣櫃；想找有趣的穿搭組合靈感用成衣型錄。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">製衣工坊的詞條要怎麼搭配使用？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">製衣工坊把服裝拆成五個模組：版型、材質、剪裁、顏色、點綴。<br>建議的組合邏輯是：<br><br><strong>版型</strong>（決定輪廓）→ <strong>材質</strong>（決定質感）→ <strong>剪裁細節</strong>（加特色）→ <strong>顏色</strong> → <strong>點綴</strong>（可選）<br><br>散詞：<code>dress, silk, off-shoulder, white, lace trim</code><br>組合成：<code>white silk off-shoulder dress, lace trim</code>，表示「白色絲質露肩洋裝，蕾絲裝飾」。<br><br>形容詞放在服裝詞前面，點綴類的配件詞用逗號接在後面即可。<br>可以參考頁面上的「組合示範」彈窗看更多例子。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">寫真沙龍的「在 pixAI 開啟」連結是什麼？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">點擊連結會直接在 pixAI 開啟對應的模型頁面，並帶入預設的 prompt 和參數設定。<br>你只需要換上自己的人設描述，其餘設定都已經調好，省去重新設定的步驟。</div>
+        </div>
+      </div>
+
       <!-- 圖面品質 -->
       <div class="qa-group" id="qa-quality">
         <div class="qa-group-title">QUALITY — 圖面品質</div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">圖片整體很模糊，細節不夠清晰<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">可以嘗試以下幾個方向：<br>① 提高 cfg（建議 6–9）<br>② 增加 steps（建議 25–35）<br>③ 在 prompt 加入 <code>masterpiece, best quality, highres</code><br>④ 使用 Hires.fix 或圖生圖放大，效果比直接拉大尺寸好。</div>
+          <div class="qa-a">可以嘗試以下幾個方向：<br>① 增加 steps 或提高 cfg<br>② 在 prompt 加入 <code>masterpiece, best quality, highres</code><br>③ 使用 Hires.fix 或圖生圖放大，效果比直接拉大尺寸好</div>
         </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">圖片有很多噪點或顆粒感<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">通常是 steps 不夠或 sampler 設定的問題。<br>① 增加 steps 至 30 以上<br>② 換用 DPM++ 2M Karras 或 Euler a<br>③ 確認 denoise strength 沒有設太高（圖生圖模式）</div>
+          <div class="qa-a">通常是 steps 不夠或取樣方式設定的問題。<br>① 增加 steps<br>② 取樣方式改用 DPM++ 2M Karras 或 Euler a<br>③ 確認 denoise strength 沒有設太高（圖生圖模式）</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">圖面出現奇怪的色塊或色斑<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">色斑通常是 cfg 設太高導致模型過度渲染。<br>① 嘗試降低 cfg（pixAI 建議維持在 7 以下）<br>② 也可以換個 seed 重跑，有時候只是那張 seed 不穩定</div>
         </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">人物比例看起來很奇怪，頭太大或手很詭異<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">手部變形是目前模型的通病，可以嘗試：<br>① negative prompt 加 <code>bad hands, extra fingers, missing fingers</code><br>② 指定構圖讓手不出現在畫面內，例如 <code>upper body</code>、<code>portrait</code><br>③ 用 inpaint 局部重繪手部區域</div>
+          <div class="qa-a">手部變形是目前模型的通病，可以嘗試：<br>① 在正向 prompt 加入 <code>correct anatomy, hand details</code><br>② 指定構圖讓手不出現在畫面內，例如 <code>upper body</code>、<code>portrait</code><br>③ 用 inpaint 局部重繪手部區域</div>
         </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">臉部崩掉或五官位置不對<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">① negative prompt 加入 <code>bad face, ugly, distorted face</code><br>② 嘗試加 <code>detailed face, perfect face</code> 到正向 prompt<br>③ 可以開 ADetailer（如果平台支援）針對臉部自動修復<br>④ 也可以局部 inpaint 臉部區域重繪</div>
+          <div class="qa-a">① 在正向 prompt 加入 <code>detailed face, perfect face</code><br>② 可以開啟 pixAI 的<strong>面部修復</strong>功能自動修正臉部<br>③ 也可以局部 inpaint 臉部區域重繪</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">想算人外角色（人魚、人馬、有義肢等），但一直長出不想要的部位<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">模型對人形有很強的預設傾向，遇到特殊體型時會自動「補全」成一般人體。建議：<br>① 明確描述你要的特殊部位，例如 <code>mermaid tail, no legs, fish tail</code><br>② 在 negative prompt 排除不想要的部位，例如不想要腿就加 <code>legs, human legs, feet</code><br>③ 越特殊的體型模型認識度越低，可能需要多跑幾次或調高相關詞條的權重<br>④ 如果有對應的 LoRA 會有效很多，建議搜尋看看有沒有相關資源</div>
         </div>
       </div>
 
       <!-- 服裝生成 -->
       <div class="qa-group" id="qa-clothing">
         <div class="qa-group-title">CLOTHING — 服裝生成</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">服裝出來是對的，但人物性別跑掉了（例如護士服變女生）<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">部分服裝詞條帶有性別刻板印象，模型會預設生成特定性別。如果要強調男性人設，建議在人設描述後面補充以下詞條：<br><br><code>male focus, manly, masculine, 1boy</code><br><br>例如：<code>（你的人設）, nurse, male focus, manly, 1boy</code><br><br>反之若要強調女性，可以加 <code>female focus, 1girl</code>。詞條放在服裝詞附近效果較好。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">男性人設穿女裝／女性人設穿男裝，體型特徵跑掉了<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">模型容易根據服裝「猜測」體型，導致穿女裝的男角胸部跑出來，或穿男裝的女角體型變中性。<br><br>可以在 negative prompt 裡明確排除不想要的特徵，例如：<br>· 男角穿女裝時加 <code>female, breasts, wide hips</code> 到 negative<br>· 女角穿男裝時加 <code>male, flat chest</code> 到 negative（依需求調整）<br><br>同時在正向 prompt 強調體型描述效果更好。</div>
+        </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">衣服根本沒出現，還是原本的便服<span class="qa-q-arrow">▼</span></div>
@@ -854,7 +905,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">不知道要選哪個模型，有推薦嗎？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">可以參考說明頁的模型列表，或直接看經典衣櫃的五模型對比圖觀察風格差異。<br>簡單來說：<br>· <strong>ChocoMint</strong> — 整體偏柔和，服裝細節表現穩定<br>· <strong>coco</strong> — 風格較鮮明，光影對比強<br>· <strong>illus_Mix2</strong> — 插畫感較重<br>· <strong>Plant Milk</strong> — 柔焦氛圍感強<br>· <strong>Hoshino v2</strong> — 新模型，表現待觀察</div>
+          <div class="qa-a">模型的風格差異很難用文字說清楚，而且套上不同 LoRA 後表現也會不一樣。<br>建議直接去<strong>經典衣櫃</strong>點開任一單品，可以看到五個模型用相同 prompt 的直出對比圖，實際效果一目瞭然。</div>
         </div>
 
         <div class="qa-item">
