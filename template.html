@@ -79,8 +79,8 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .h-rule{width:44px;height:1px;background:var(--gold);opacity:.45;margin:1.3rem auto 0;position:relative;}
 
 /* ── MAIN NAV ── */
-.main-nav{background:var(--ink);border-top:1px solid rgba(184,150,62,.18);display:flex;justify-content:center;position:sticky;top:0;z-index:200;}
-.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;padding:.82rem 1.5rem;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;}
+.main-nav{background:var(--ink);border-top:1px solid rgba(184,150,62,.18);display:flex;justify-content:stretch;position:sticky;top:0;z-index:200;}
+.main-nav button{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,240,232,.42);font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.16em;padding:.82rem 0;cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap;flex:1;text-align:center;}
 .main-nav button:hover{color:var(--parchment);}
 .main-nav button.active{color:var(--gold-lt);border-bottom-color:var(--gold);}
 
@@ -730,7 +730,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">Euler a</span>
       </div>
       <div style="display:flex;align-items:center;gap:.5rem;">
-        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">面部修復</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;color:var(--muted);">面部修復</span>
         <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">開啟</span>
       </div>
       <div style="font-size:.72rem;color:var(--muted);margin-left:auto;line-height:1.6;">所有範例圖以相同參數搭配模型直出，僅更換底模，其餘固定不動。</div>
