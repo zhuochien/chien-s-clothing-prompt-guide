@@ -20,6 +20,7 @@ body.theme-archives{--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a556
 body.theme-atelier {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
 body.theme-outfits {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
 body.theme-salon   {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
+body.theme-qa      {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
 
 /* banner 背景色跟著主題變 */
 body.theme-intro   header,body.theme-intro   .main-nav{background:#4a5e45;}
@@ -27,34 +28,43 @@ body.theme-archives header,body.theme-archives .main-nav{background:#b5737a;}
 body.theme-atelier  header,body.theme-atelier  .main-nav{background:#4a5e45;}
 body.theme-outfits  header,body.theme-outfits  .main-nav{background:#b5737a;}
 body.theme-salon    header,body.theme-salon    .main-nav{background:#4a5e45;}
+body.theme-qa       header,body.theme-qa       .main-nav{background:#b5737a;}
 
 /* 粉色主題 header 文字色 */
 body.theme-archives header h1,
 body.theme-rtw      header h1,
-body.theme-outfits  header h1{color:#1e2238;}
+body.theme-outfits  header h1,
+body.theme-qa       header h1{color:#1e2238;}
 body.theme-archives header h1 em,
 body.theme-rtw      header h1 em,
-body.theme-outfits  header h1 em{color:#2e1a40;}
+body.theme-outfits  header h1 em,
+body.theme-qa       header h1 em{color:#2e1a40;}
 body.theme-archives .h-label,
 body.theme-rtw      .h-label,
 body.theme-outfits  .h-label,
+body.theme-qa       .h-label,
 body.theme-archives .h-sub,
 body.theme-rtw      .h-sub,
-body.theme-outfits  .h-sub{color:#2e1a40;}
+body.theme-outfits  .h-sub,
+body.theme-qa       .h-sub{color:#2e1a40;}
 body.theme-archives .h-rule,
 body.theme-rtw      .h-rule,
-body.theme-outfits  .h-rule{background:#2e1a40;}
+body.theme-outfits  .h-rule,
+body.theme-qa       .h-rule{background:#2e1a40;}
 
 /* 粉色主題 nav 文字色 */
 body.theme-archives .main-nav button,
 body.theme-rtw      .main-nav button,
-body.theme-outfits  .main-nav button{color:rgba(30,34,56,.5);}
+body.theme-outfits  .main-nav button,
+body.theme-qa       .main-nav button{color:rgba(30,34,56,.5);}
 body.theme-archives .main-nav button:hover,
 body.theme-rtw      .main-nav button:hover,
-body.theme-outfits  .main-nav button:hover{color:#1e2238;}
+body.theme-outfits  .main-nav button:hover,
+body.theme-qa       .main-nav button:hover{color:#1e2238;}
 body.theme-archives .main-nav button.active,
 body.theme-rtw      .main-nav button.active,
-body.theme-outfits  .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
+body.theme-outfits  .main-nav button.active,
+body.theme-qa       .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
 
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--parchment);color:var(--ink);font-family:'Noto Serif TC',serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
@@ -316,7 +326,32 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .ate-note{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:.3rem;}
 .ate-foot{display:flex;justify-content:flex-end;}
 
-/* ── 成衣型錄 型錄卡 ── */
+/* ── QA ── */
+.qa-wrap{display:grid;grid-template-columns:200px 1fr;gap:2rem;align-items:start;}
+.qa-cat-list{position:sticky;top:80px;display:flex;flex-direction:column;gap:.3rem;}
+.qa-cat-btn{background:none;border:none;text-align:left;padding:.5rem .8rem;border-radius:6px;cursor:pointer;font-size:.8rem;font-family:'Noto Serif TC',serif;color:var(--body);transition:background .15s,color .15s;}
+.qa-cat-btn:hover{background:var(--border);}
+.qa-cat-btn.active{background:var(--gold);color:#fff;font-weight:600;}
+.qa-group{margin-bottom:2rem;}
+.qa-group-title{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);}
+.qa-item{border:1px solid var(--border);border-radius:8px;margin-bottom:.6rem;overflow:hidden;}
+.qa-q{padding:.85rem 1rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.85rem;font-weight:500;background:var(--card);transition:background .15s;}
+.qa-q:hover{background:var(--parchment);}
+.qa-q-arrow{flex-shrink:0;font-size:.7rem;color:var(--muted);transition:transform .25s;}
+.qa-item.open .qa-q-arrow{transform:rotate(180deg);}
+.qa-a{display:none;padding:.85rem 1rem 1rem;font-size:.82rem;line-height:1.75;color:var(--body);border-top:1px solid var(--border);background:var(--cream);}
+.qa-item.open .qa-a{display:block;}
+/* 中間導引區塊 */
+.qa-nudge{margin:2.5rem 0 0;padding:1rem 1.4rem;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.qa-nudge-text{font-size:.82rem;color:var(--body);line-height:1.6;}
+.qa-nudge-text strong{color:var(--rust);display:block;margin-bottom:.2rem;font-size:.85rem;}
+.qa-nudge-btn{flex-shrink:0;padding:.5rem 1.2rem;background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:.78rem;font-family:'Noto Serif TC',serif;cursor:pointer;white-space:nowrap;transition:opacity .15s;}
+.qa-nudge-btn:hover{opacity:.85;}
+@media(max-width:640px){
+  .qa-wrap{grid-template-columns:1fr;}
+  .qa-cat-list{flex-direction:row;flex-wrap:wrap;position:static;}
+  .qa-nudge{flex-direction:column;align-items:flex-start;}
+}
 .rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
 .outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:.8rem;}
 .outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
@@ -391,6 +426,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   <button onclick="goTab('atelier',this)">製衣工坊</button>
   <button onclick="goTab('outfits',this)">成衣型錄</button>
   <button onclick="goTab('salon',this)">寫真沙龍</button>
+  <button onclick="goTab('qa',this)">QA</button>
 </nav>
 
 <!-- ══════════ INTRO ══════════ -->
@@ -619,6 +655,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <span class="sec-en">The Archives</span>
       <h2>經典衣櫃</h2>
       <p>模型原本就能識別的「成衣」詞條，無需複雜描述即可生成的單品。</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">所有服裝詞條男女皆可使用，分類僅供參考，依據常見穿搭習慣大致歸類。</p>
     </div>
   </div>
   <div class="with-sidebar">
@@ -635,6 +672,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       </div>
 
       <!-- ARCHIVES_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>圖出來不滿意？</strong>遇到服裝跑掉、比例怪怪的問題？去 QA 頁面看看常見排錯說明。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
     </div>
   </div>
 </section>
@@ -664,6 +706,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     </div>
     <div>
       <!-- ATELIER_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>組合出來怪怪的？</strong>詞條衝突或效果不如預期？去 QA 看看有沒有對應的解法。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
   </div>
 </section>
 
@@ -691,6 +738,11 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <!-- OUTFITS_FILTER -->
       </div>
       <!-- OUTFITS_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>穿搭出來不對味？</strong>服裝詞條沒效果或效果跑掉？去 QA 看看有沒有對應的解法。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
     </div>
   </div>
 </section>
@@ -714,11 +766,127 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     </div>
     <div>
       <!-- SALON_CONTENT -->
+
+      <div class="qa-nudge">
+        <div class="qa-nudge-text"><strong>場景沒出來？光影跑掉？</strong>來 QA 找找常見的場景生成問題解法。</div>
+        <button class="qa-nudge-btn" onclick="goTabByID('qa')">前往 QA →</button>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ ATE INFO MODAL ══════════ -->
+<!-- ══════════ SECTION 5 – QA ══════════ -->
+<section id="qa" class="section">
+  <div class="sec-head">
+    <div class="sec-num">05</div>
+    <div class="sec-info">
+      <span class="sec-en">Troubleshooting Q&amp;A</span>
+      <h2>常見問題</h2>
+      <p>算圖過程遇到問題？這裡收錄常見的排錯說明，點擊題目展開答案。</p>
+    </div>
+  </div>
+  <div class="qa-wrap">
+
+    <!-- 左側分類 -->
+    <div class="qa-cat-list" id="qa-cats">
+      <button class="qa-cat-btn active" onclick="qaScroll('qa-quality',this)">圖面品質</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-clothing',this)">服裝生成</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-model',this)">模型選擇</button>
+      <button class="qa-cat-btn" onclick="qaScroll('qa-misc',this)">其他問題</button>
+    </div>
+
+    <!-- 右側問答 -->
+    <div>
+
+      <!-- 圖面品質 -->
+      <div class="qa-group" id="qa-quality">
+        <div class="qa-group-title">QUALITY — 圖面品質</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">圖片整體很模糊，細節不夠清晰<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以嘗試以下幾個方向：<br>① 提高 cfg（建議 6–9）<br>② 增加 steps（建議 25–35）<br>③ 在 prompt 加入 <code>masterpiece, best quality, highres</code><br>④ 使用 Hires.fix 或圖生圖放大，效果比直接拉大尺寸好。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">圖片有很多噪點或顆粒感<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">通常是 steps 不夠或 sampler 設定的問題。<br>① 增加 steps 至 30 以上<br>② 換用 DPM++ 2M Karras 或 Euler a<br>③ 確認 denoise strength 沒有設太高（圖生圖模式）</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">人物比例看起來很奇怪，頭太大或手很詭異<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">手部變形是目前模型的通病，可以嘗試：<br>① negative prompt 加 <code>bad hands, extra fingers, missing fingers</code><br>② 指定構圖讓手不出現在畫面內，例如 <code>upper body</code>、<code>portrait</code><br>③ 用 inpaint 局部重繪手部區域</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">臉部崩掉或五官位置不對<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">① negative prompt 加入 <code>bad face, ugly, distorted face</code><br>② 嘗試加 <code>detailed face, perfect face</code> 到正向 prompt<br>③ 可以開 ADetailer（如果平台支援）針對臉部自動修復<br>④ 也可以局部 inpaint 臉部區域重繪</div>
+        </div>
+      </div>
+
+      <!-- 服裝生成 -->
+      <div class="qa-group" id="qa-clothing">
+        <div class="qa-group-title">CLOTHING — 服裝生成</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">衣服根本沒出現，還是原本的便服<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">① 確認服裝詞條是否放在 prompt 前段（權重較高的位置）<br>② 嘗試用括號提高權重，例如 <code>(maid dress:1.3)</code><br>③ 部分款式模型認識度較低，可以用更通用的詞替代，或參考經典衣櫃的建議詞條</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">兩種衣服的元素混在一起了<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">同時描述太多服裝類型時容易互相干擾。建議：<br>① 先確定主視覺的服裝，其他作為配件補充<br>② 使用製衣工坊的方式，從版型出發逐層疊加<br>③ 衝突的詞（如 <code>dress</code> 和 <code>pants</code>）盡量擇一描述</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">服裝顏色和我描述的不一樣<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">顏色詞要明確放在服裝詞前面，例如 <code>red dress</code> 而非 <code>dress, red</code>。<br>若要精確控色可以加 <code>solid color</code> 避免模型自由發揮，或提高顏色詞的權重。</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">服裝版型正確但布料材質感不對<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以直接在服裝詞前加材質，例如 <code>silk dress</code>、<code>lace blouse</code>、<code>PVC skirt</code>。<br>材質詞的效果因模型而異，可以參考製衣工坊的材質面料分類選用認識度較高的詞條。</div>
+        </div>
+      </div>
+
+      <!-- 模型選擇 -->
+      <div class="qa-group" id="qa-model">
+        <div class="qa-group-title">MODEL — 模型選擇</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">不知道要選哪個模型，有推薦嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以參考說明頁的模型列表，或直接看經典衣櫃的五模型對比圖觀察風格差異。<br>簡單來說：<br>· <strong>ChocoMint</strong> — 整體偏柔和，服裝細節表現穩定<br>· <strong>coco</strong> — 風格較鮮明，光影對比強<br>· <strong>illus_Mix2</strong> — 插畫感較重<br>· <strong>Plant Milk</strong> — 柔焦氛圍感強<br>· <strong>Hoshino v2</strong> — 新模型，表現待觀察</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">同樣的 prompt 換模型後效果差很多<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">這是正常現象。不同底模對詞條的認識程度不一樣，建議：<br>① 先在多個模型各跑幾張觀察差異<br>② 經典衣櫃的對比圖可以幫助快速判斷哪個模型比較能識別該款服裝<br>③ 認識度低的模型可以加強詞條權重補救</div>
+        </div>
+      </div>
+
+      <!-- 其他問題 -->
+      <div class="qa-group" id="qa-misc">
+        <div class="qa-group-title">MISC — 其他問題</div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">加了很多 prompt 但效果和沒加一樣<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">prompt 太長時後面的詞影響力會衰減。建議：<br>① 把最重要的詞放在最前面<br>② 刪除冗餘或重複的描述，聚焦在關鍵詞<br>③ 適當使用括號提高重要詞的權重，但不要全部都加，反而會互相抵消</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">每次生成的圖差異太大，風格不穩定<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">① 固定 seed 可以讓構圖和風格更穩定<br>② 降低 cfg 可以減少隨機性（建議 6–7 之間）<br>③ 增加 prompt 中對風格的描述，例如 <code>anime style</code>、<code>illustration</code></div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 可以直接複製去其他平台用嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以！這裡的 prompt 都是純文字服裝詞條，沒有綁定特定平台或模型。<br>不過不同平台的底模和參數設定不同，實際效果可能會有落差，建議搭配對應的基本品質詞使用。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <div id="ate-info-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeAteInfoModal()">
   <div style="background:var(--cream);border-radius:8px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
     <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
@@ -819,7 +987,7 @@ function goTabByID(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const map={intro:0,archives:1,atelier:2,outfits:3,salon:4};
+  const map={intro:0,archives:1,atelier:2,outfits:3,salon:4,qa:5};
   const btns=document.querySelectorAll('.main-nav button');
   if(map[id]!==undefined)btns[map[id]].classList.add('active');
   document.body.className='theme-'+id;
@@ -895,6 +1063,16 @@ document.addEventListener('DOMContentLoaded',()=>{
     },{passive:true});
   });
 });
+function toggleQA(qEl){
+  const item=qEl.parentElement;
+  item.classList.toggle('open');
+}
+function qaScroll(id,btn){
+  const el=document.getElementById(id);
+  if(el){setTimeout(()=>{const off=el.getBoundingClientRect().top+window.scrollY-80;window.scrollTo({top:off,behavior:'smooth'});},40);}
+  document.querySelectorAll('#qa-cats .qa-cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
 function filterOutfit(btn,cat){
   document.querySelectorAll('#outfits .f-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
