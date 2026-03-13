@@ -9,7 +9,8 @@ const notion = new Client({ auth: process.env.NOTION_TOKEN });
 const DB = {
   archives: process.env.DB_ARCHIVES,
   atelier:  process.env.DB_ATELIER,
-  rtw:      process.env.DB_RTW,
+  salon:    process.env.DB_SALON,
+  outfits:  process.env.DB_OUTFITS,
 };
  
 function text(prop) {
@@ -82,18 +83,10 @@ function buildArchives(pages) {
       const zh = esc(text(p["中文名稱"]));
       const en = esc(text(p["Name"]));
       const prompt = esc(text(p["Prompt Tags"]));
-      const imgKeys = ["coco-Illustrious-NoobXL-Style","ChocoMint_Mix","illustrious_Mix2","Plant_Milk","模型E示意圖"];
-      const modelLabels = ["coco","ChocoMint","illus_Mix2","Plant Milk","（待定）"];
-      const imgs = imgKeys.map(k => (text(p[k]) || [])[0] || "");
-      const img0 = imgs[0] || "";
-      // 把五張圖和標籤序列化成 data 屬性
-      const imgData = esc(JSON.stringify(imgs));
-      const lblData = esc(JSON.stringify(modelLabels));
-      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
+      const img0 = (text(p["coco-Illustrious-NoobXL-Style"]) || [])[0] || "";
+      html += `<div class="arc-card"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div>`;
     }
     html += `</div>`;
-<<<<<<< HEAD
-=======
  
     if (items.length > 0) {
       const p = items[0];
@@ -108,7 +101,6 @@ function buildArchives(pages) {
       }
       html += `</div></div>`;
     }
->>>>>>> ab6fafa270a1037c0c04b6c929e2bd7660521631
     html += `</div>`;
   }
   return html;
@@ -161,7 +153,7 @@ function buildAtelier(pages) {
  
 // 03 成衣型錄
 // 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
-function buildRTW(pages) {
+function buildSalon(pages) {
   const groups = {};
   const order  = [];
   for (const page of pages) {
@@ -170,16 +162,21 @@ function buildRTW(pages) {
     if (!groups[key]) { groups[key] = []; order.push(key); }
     groups[key].push(p);
   }
- 
+
+  let toc  = "";
   let html = "";
-  for (const series of order) {
+
+  order.forEach((series, idx) => {
     const items    = groups[series];
-    const anchorId = `rtw-${series.replace(/\s/g,"-")}`;
- 
+    const anchorId = `salon-${series.replace(/\s/g,"-")}`;
+    const first    = idx === 0 ? " active" : "";
+
+    toc += `<div class="sb-link${first}" onclick="scrollTo2('${anchorId}','salon-toc',this)"><span class="sb-dot"></span>${esc(series)}</div>`;
+
     html += `<div id="${anchorId}" style="margin-top:2.5rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${esc(series)}</span></div>`;
     html += `<div class="rtw-catalog">`;
- 
+
     for (const p of items) {
       const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
@@ -188,50 +185,99 @@ function buildRTW(pages) {
       const pixaiUrl = p["pixAI連結"]?.url || "";
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
- 
-      html += `
-<div class="rtw-card">
-  <div class="rtw-img">`;
+
+      html += `<div class="rtw-card"><div class="rtw-img">`;
       if (img0) {
         html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
       } else {
         html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
       }
-      html += `</div>
-  <div class="rtw-body">
-    <div class="rtw-name">${name}</div>
-    ${genders ? `<div class="rtw-meta">${genders}</div>` : ""}
-    <div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>
-    ${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}
-  </div>
-</div>`;
+      html += `</div><div class="rtw-body"><div class="rtw-name">${name}</div>${genders ? `<div class="rtw-meta">${genders}</div>` : ""}<div class="prompt-box" style="margin:.6rem 0 .5rem;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>${pixaiUrl ? `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" class="pixai-link">在 pixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></a>` : ""}</div></div>`;
     }
     html += `</div></div>`;
-  }
-  return html;
+  });
+
+  return { html, toc };
 }
- 
+
+function buildOutfits(pages) {
+  const groups = { "女": [], "男": [] };
+  for (const page of pages) {
+    const p      = page.properties;
+    const gender = text(p["性別"]) || "女";
+    if (!groups[gender]) groups[gender] = [];
+    groups[gender].push(p);
+  }
+
+  let toc    = "";
+  let filter = `<button class="f-btn active" onclick="filterOutfit(this,'all')">全部</button>`;
+  let html   = "";
+
+  [["女","female"],["男","male"]].forEach(([gender, slug], idx) => {
+    const items = groups[gender];
+    if (!items.length) return;
+    const first = idx === 0 ? " active" : "";
+
+    toc    += `<div class="sb-link${first}" onclick="scrollTo2('outfit-${slug}','outfit-toc',this)"><span class="sb-dot"></span>${gender}模特兒</div>`;
+    filter += `<button class="f-btn" onclick="filterOutfit(this,'${slug}')">${gender}</button>`;
+
+    html += `<div id="outfit-${slug}" data-ocat="${slug}" style="margin-top:2rem;">`;
+    html += `<div class="sub-label"><span class="sub-code">${gender}模特兒</span></div>`;
+    html += `<div class="outfit-runway">`;
+
+    for (const p of items) {
+      const name   = esc(text(p["名稱"]));
+      const prompt = esc(text(p["Prompt Tags"]));
+      const imgs   = text(p["示意圖"]) || [];
+      const img0   = imgs[0] || "";
+
+      html += `<div class="outfit-card"><div class="outfit-img">`;
+      if (img0) {
+        html += `<img src="${esc(img0)}" alt="${name}" loading="lazy">`;
+      } else {
+        html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
+      }
+      html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div><div class="prompt-box" style="margin:.5rem 0;"><span class="pt">${prompt}</span><span class="pt-toggle" onclick="togglePt(this)">展開</span><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div></div></div>`;
+    }
+    html += `</div></div>`;
+  });
+
+  return { html, toc, filter };
+}
+
 async function main() {
   console.log("📦 抓取 Notion 資料...");
-  const [archivesPages, atelierPages, rtwPages] = await Promise.all([
+  const [archivesPages, atelierPages, salonPages, outfitsPages] = await Promise.all([
     fetchDB(DB.archives),
     fetchDB(DB.atelier),
-    fetchDB(DB.rtw),
+    fetchDB(DB.salon),
+    fetchDB(DB.outfits),
   ]);
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
   console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
-  console.log(`✅ 成衣型錄：${rtwPages.length} 筆`);
- 
+  console.log(`✅ 寫真沙龍：${salonPages.length} 筆`);
+  console.log(`✅ 成衣型錄：${outfitsPages.length} 筆`);
+
+  const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = buildArchives(archivesPages);
+  const { html: salonHtml,    toc: salonToc }                            = buildSalon(salonPages);
+  const { html: outfitsHtml,  toc: outfitsToc, filter: outfitsFilter }  = buildOutfits(outfitsPages);
+
   let template = fs.readFileSync("template.html", "utf8");
   template = template
-    .replace("<!-- ARCHIVES_CONTENT -->", buildArchives(archivesPages))
+    .replace("<!-- ARCHIVES_CONTENT -->", archivesHtml)
+    .replace("<!-- ARCHIVES_TOC -->",     archivesToc)
+    .replace("<!-- ARCHIVES_FILTER -->",  archivesFilter)
     .replace("<!-- ATELIER_CONTENT -->",  buildAtelier(atelierPages))
-    .replace("<!-- RTW_CONTENT -->",      buildRTW(rtwPages))
+    .replace("<!-- SALON_CONTENT -->",    salonHtml)
+    .replace("<!-- SALON_TOC -->",        salonToc)
+    .replace("<!-- OUTFITS_CONTENT -->",  outfitsHtml)
+    .replace("<!-- OUTFITS_TOC -->",      outfitsToc)
+    .replace("<!-- OUTFITS_FILTER -->",   outfitsFilter)
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
- 
+
   if (!fs.existsSync("dist")) fs.mkdirSync("dist");
   fs.writeFileSync("dist/index.html", template, "utf8");
   console.log("🎉 dist/index.html 產生完成！");
 }
- 
+
 main().catch(err => { console.error("❌ 錯誤：", err); process.exit(1); });

@@ -18,33 +18,43 @@
 body.theme-intro   {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
 body.theme-archives{--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
 body.theme-atelier {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
-body.theme-rtw     {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+body.theme-outfits {--ink:#4a2428;--gold:#b5737a;--gold-lt:#cfa0a6;--rust:#9a5560;}
+body.theme-salon   {--ink:#2a3828;--gold:#a8c5a0;--gold-lt:#c4d9bc;--rust:#7aaa80;}
 
 /* banner 背景色跟著主題變 */
 body.theme-intro   header,body.theme-intro   .main-nav{background:#4a5e45;}
 body.theme-archives header,body.theme-archives .main-nav{background:#b5737a;}
 body.theme-atelier  header,body.theme-atelier  .main-nav{background:#4a5e45;}
-body.theme-rtw      header,body.theme-rtw      .main-nav{background:#b5737a;}
+body.theme-outfits  header,body.theme-outfits  .main-nav{background:#b5737a;}
+body.theme-salon    header,body.theme-salon    .main-nav{background:#4a5e45;}
 
 /* 粉色主題 header 文字色 */
 body.theme-archives header h1,
-body.theme-rtw      header h1{color:#1e2238;}
+body.theme-rtw      header h1,
+body.theme-outfits  header h1{color:#1e2238;}
 body.theme-archives header h1 em,
-body.theme-rtw      header h1 em{color:#2e1a40;}
+body.theme-rtw      header h1 em,
+body.theme-outfits  header h1 em{color:#2e1a40;}
 body.theme-archives .h-label,
 body.theme-rtw      .h-label,
+body.theme-outfits  .h-label,
 body.theme-archives .h-sub,
-body.theme-rtw      .h-sub{color:#2e1a40;}
+body.theme-rtw      .h-sub,
+body.theme-outfits  .h-sub{color:#2e1a40;}
 body.theme-archives .h-rule,
-body.theme-rtw      .h-rule{background:#2e1a40;}
+body.theme-rtw      .h-rule,
+body.theme-outfits  .h-rule{background:#2e1a40;}
 
 /* 粉色主題 nav 文字色 */
 body.theme-archives .main-nav button,
-body.theme-rtw      .main-nav button{color:rgba(30,34,56,.5);}
+body.theme-rtw      .main-nav button,
+body.theme-outfits  .main-nav button{color:rgba(30,34,56,.5);}
 body.theme-archives .main-nav button:hover,
-body.theme-rtw      .main-nav button:hover{color:#1e2238;}
+body.theme-rtw      .main-nav button:hover,
+body.theme-outfits  .main-nav button:hover{color:#1e2238;}
 body.theme-archives .main-nav button.active,
-body.theme-rtw      .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
+body.theme-rtw      .main-nav button.active,
+body.theme-outfits  .main-nav button.active{color:#1e2238;border-bottom-color:#2e1a40;}
 
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--parchment);color:var(--ink);font-family:'Noto Serif TC',serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
@@ -88,6 +98,16 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .sb-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.45;flex-shrink:0;}
 .sb-link.active .sb-dot{opacity:1;}
 
+.preset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.7rem;}
+.preset-card{background:var(--cream);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.preset-head{padding:.55rem .8rem;background:var(--ink);display:flex;align-items:center;gap:.5rem;}
+.preset-name{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--gold-lt);line-height:1.3;}
+.preset-rows{padding:.5rem .8rem .6rem;display:flex;flex-direction:column;gap:.3rem;}
+.preset-row{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;}
+.preset-lbl{color:var(--muted);font-size:.65rem;}
+.preset-val{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--ink);font-weight:500;}
+.preset-note .preset-lbl{color:var(--gold);}
+.preset-note .preset-val{color:var(--gold);font-size:.62rem;}
 /* ── FILTER BAR ── */
 .filter-bar{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:2rem;}
 .f-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--muted);margin-right:.3rem;}
@@ -103,6 +123,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 /* ── PROMPT BOX ── */
 .prompt-box{padding:.75rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.65rem;}
 .pt{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);flex:1;word-break:break-all;line-height:1.6;}
+.pt-toggle{display:none;font-size:.65rem;color:var(--gold);cursor:pointer;white-space:nowrap;padding:.1rem .3rem;}
 
 /* ── THUMB GRID ── */
 .tg5{display:grid;grid-template-columns:repeat(5,1fr);gap:0;}
@@ -277,6 +298,9 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 /* ── FOOTER ── */
 footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
 
+.ate-info-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+.ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Noto Serif TC',serif;}
+.ate-info-note{font-size:.65rem;color:var(--muted);margin-left:auto;text-align:right;}
 /* ── 製衣工坊 篩選 ── */
 .ate-filter-bar{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 0 1.2rem;}
 .ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
@@ -294,6 +318,12 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
 /* ── 成衣型錄 型錄卡 ── */
 .rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
+.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:.8rem;}
+.outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
+.outfit-img{aspect-ratio:2/3;overflow:hidden;background:var(--parchment);}
+.outfit-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.outfit-card:hover .outfit-img img{transform:scale(1.03);}
+.outfit-body{padding:.8rem 1rem 1rem;display:flex;flex-direction:column;flex:1;gap:.4rem;}
 .rtw-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
 .rtw-img{aspect-ratio:3/4;overflow:hidden;background:var(--parchment);}
 .rtw-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
@@ -324,7 +354,17 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .bkd-cols{grid-template-columns:1fr;}
   .arc-grid,.item-row{grid-template-columns:repeat(2,1fr);}
   .card-grid{grid-template-columns:1fr;}
-  .rtw-catalog{grid-template-columns:repeat(2,1fr);}
+  .rtw-catalog{grid-template-columns:1fr;}
+  .outfit-runway{grid-template-columns:repeat(2,1fr);}
+  .rtw-card{flex-direction:row;}
+  .rtw-img{width:110px;min-width:110px;aspect-ratio:unset;height:auto;min-height:140px;}
+  .rtw-body{padding:.7rem .8rem;}
+  .pt-toggle{display:inline-block;}
+  .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
+  .pt.expanded{display:block !important;overflow:visible;}
+  .prompt-box{flex-wrap:wrap;gap:.4rem;}
+  .prompt-box .pt{width:100%;min-width:0;flex:none;}
+  .prompt-box .pt-toggle{margin-left:auto;}
 }
 </style>
 </head>
@@ -341,7 +381,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   <button class="active" onclick="goTab('intro',this)">說明</button>
   <button onclick="goTab('archives',this)">經典衣櫃</button>
   <button onclick="goTab('atelier',this)">製衣工坊</button>
-  <button onclick="goTab('rtw',this)">成衣型錄</button>
+  <button onclick="goTab('outfits',this)">成衣型錄</button>
+  <button onclick="goTab('salon',this)">寫真沙龍</button>
 </nav>
 
 <!-- ══════════ INTRO ══════════ -->
@@ -495,7 +536,18 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         </tbody>
       </table>
     </div>
-   
+    </div>
+
+    <!-- 經典衣櫃範例圖配置 -->
+    <div style="padding:0 1.4rem 1.8rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;color:var(--muted);margin-bottom:.9rem;">ARCHIVES SAMPLE CONFIG</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+        <div style="padding:.7rem 1rem;font-size:.75rem;color:var(--muted);line-height:1.7;">
+          經典衣櫃的範例圖均以相同 LoRA 組合搭配各模型生成，僅更換底模，其餘參數固定不動，方便直觀比較模型風格差異。
+        </div>
+      </div>
+    </div>
+
   <!-- Block 3: How to use -->
   <div class="intro-block">
     <div class="intro-block-head">
@@ -565,18 +617,13 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sidebar">
       <div class="sb-box" id="arc-toc">
         <div class="sb-head">JUMP TO</div>
-        <div class="sb-link active" onclick="scrollTo2('a11','arc-toc',this)"><span class="sb-dot"></span>01 經典女裝</div>
-        <div class="sb-link" onclick="scrollTo2('a12','arc-toc',this)"><span class="sb-dot"></span>02 經典男裝</div>
-        <div class="sb-link" onclick="scrollTo2('a13','arc-toc',this)"><span class="sb-dot"></span>03 其他</div>
+        <!-- ARCHIVES_TOC -->
       </div>
     </div>
     <div>
       <div class="filter-bar">
         <span class="f-label">FILTER</span>
-        <button class="f-btn active" onclick="filterArc(this,'all')">全部</button>
-        <button class="f-btn" onclick="filterArc(this,'female')">經典女裝</button>
-        <button class="f-btn" onclick="filterArc(this,'male')">經典男裝</button>
-        <button class="f-btn" onclick="filterArc(this,'others')">其他</button>    
+        <!-- ARCHIVES_FILTER -->
       </div>
 
       <!-- ARCHIVES_CONTENT -->
@@ -598,6 +645,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sidebar">
       <div class="sb-box" id="ate-toc">
         <div class="sb-head">MODULES</div>
+        <div class="sb-link" onclick="openAteInfoModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">欄目說明</div>
+        <div class="sb-link" onclick="openComboModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">組合示範</div>
         <div class="sb-link active" onclick="scrollTo2('ma01','ate-toc',this)"><span class="sb-dot"></span>01 基礎版型</div>
         <div class="sb-link" onclick="scrollTo2('ma02','ate-toc',this)"><span class="sb-dot"></span>02 材質面料</div>
         <div class="sb-link" onclick="scrollTo2('ma03','ate-toc',this)"><span class="sb-dot"></span>03 剪裁工藝</div>
@@ -606,53 +655,129 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       </div>
     </div>
     <div>
-      <!-- Overview table -->
-      <div class="mod-table-wrap">
-        <table class="mod-table">
-          <thead><tr><th>編號</th><th>類別</th><th>核心要素</th><th>備註</th></tr></thead>
-          <tbody>
-            <tr><td><span class="mc">01</span></td><td><span class="mtag t-sil">SILHOUETTE</span><div class="mcat">基礎版型</div></td><td><div class="chips"><span class="chip">上裝</span><span class="chip">下裝</span><span class="chip">連體衣</span><span class="chip">外搭</span><span class="chip">內衣</span></div></td><td class="mnote">決定服裝基底</td></tr>
-            <tr><td><span class="mc">02</span></td><td><span class="mtag t-fab">FABRIC</span><div class="mcat">材質面料</div></td><td><div class="chips"><span class="chip">絲綢</span><span class="chip">乳膠</span><span class="chip">皮革</span><span class="chip">針織</span><span class="chip">歐根紗</span><span class="chip">PVC</span></div></td><td class="mnote">影響光影與圖案紋理</td></tr>
-            <tr><td><span class="mc">03</span></td><td><span class="mtag t-tai">TAILORING</span><div class="mcat">剪裁工藝</div></td><td><div class="chips"><span class="chip">露背</span><span class="chip">側開衩</span><span class="chip">泡泡袖</span><span class="chip">拼接</span><span class="chip">立體剪裁</span></div></td><td class="mnote">決定服裝的空間結構</td></tr>
-            <tr><td><span class="mc">04</span></td><td><span class="mtag t-col">COLOR LAB</span><div class="mcat">顏色系統</div></td><td><div class="chips"><span class="chip">Pantone 色號</span><span class="chip">金屬感</span><span class="chip">漸層</span><span class="chip">虹光</span></div></td><td class="mnote">使用特定色名增加精準度</td></tr>
-            <tr><td><span class="mc">05</span></td><td><span class="mtag t-fin">FINDINGS</span><div class="mcat">其他點綴</div></td><td><div class="chips"><span class="chip">鉚釘</span><span class="chip">珍珠</span><span class="chip">刺繡</span><span class="chip">金屬拉鍊</span><span class="chip">Choker</span></div></td><td class="mnote">其他視覺點綴</td></tr>
-          </tbody>
-        </table>
-      </div>
-
       <!-- ATELIER_CONTENT -->
   </div>
 </section>
 
 <!-- ══════════ SECTION 3 – RTW ══════════ -->
-<section id="rtw" class="section">
+<!-- ══════════ SECTION 3 – OUTFITS ══════════ -->
+<section id="outfits" class="section">
   <div class="sec-head">
     <div class="sec-num">03</div>
     <div class="sec-info">
-      <span class="sec-en">The Ready-to-Wear Collection</span>
+      <span class="sec-en">The Outfit Catalogue</span>
       <h2>成衣型錄</h2>
-      <p>嘗試過的不同主題prompt分享，可直接套用自己的人設進行試穿。</p>
+      <p>整套穿搭組合，純服裝 prompt，可直接拆解或套用。</p>
     </div>
   </div>
   <div class="with-sidebar">
     <div class="sidebar">
-      <div class="sb-box" id="rtw-toc">
-        <div class="sb-head">SERIES</div>
-        <div class="sb-link active" onclick="scrollTo2('r31','rtw-toc',this)"><span class="sb-dot"></span> 辣味日常 </div>
-        <div class="sb-link" onclick="scrollTo2('r32','rtw-toc',this)"><span class="sb-dot"></span> 十二星座 </div>
-        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 廿八星宿 </div>
-        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 廿四節氣 </div>
-        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 萬聖提案 </div>
-        <div class="sb-link" onclick="scrollTo2('r33','rtw-toc',this)"><span class="sb-dot"></span> 耶誕快樂 </div>
+      <div class="sb-box" id="outfit-toc">
+        <div class="sb-head">GENDER</div>
+        <!-- OUTFITS_TOC -->
       </div>
     </div>
     <div>
-
-      <!-- RTW_CONTENT -->
-
+      <div class="filter-bar">
+        <span class="f-label">FILTER</span>
+        <!-- OUTFITS_FILTER -->
+      </div>
+      <!-- OUTFITS_CONTENT -->
     </div>
   </div>
 </section>
+
+<!-- ══════════ SECTION 4 – SALON ══════════ -->
+<section id="salon" class="section">
+  <div class="sec-head">
+    <div class="sec-num">04</div>
+    <div class="sec-info">
+      <span class="sec-en">The Photography Studio</span>
+      <h2>寫真沙龍</h2>
+      <p>嘗試過的不同主題 prompt 分享，可直接套用自己的人設進行試穿。</p>
+    </div>
+  </div>
+  <div class="with-sidebar">
+    <div class="sidebar">
+      <div class="sb-box" id="salon-toc">
+        <div class="sb-head">SERIES</div>
+        <!-- SALON_TOC -->
+      </div>
+    </div>
+    <div>
+      <!-- SALON_CONTENT -->
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ATE INFO MODAL ══════════ -->
+<div id="ate-info-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeAteInfoModal()">
+  <div style="background:var(--cream);border-radius:8px;max-width:420px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
+    <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">欄目說明</div>
+      </div>
+      <button onclick="closeAteInfoModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
+    </div>
+    <div style="padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;">
+      <div class="ate-info-row"><span class="mtag t-sil" style="font-size:.5rem;padding:.15rem .4rem;">SILHOUETTE</span><span class="ate-info-zh">基礎版型</span><span class="ate-info-note">決定服裝基底</span></div>
+      <div class="ate-info-row"><span class="mtag t-fab" style="font-size:.5rem;padding:.15rem .4rem;">FABRIC</span><span class="ate-info-zh">材質面料</span><span class="ate-info-note">影響光影與圖案紋理</span></div>
+      <div class="ate-info-row"><span class="mtag t-tai" style="font-size:.5rem;padding:.15rem .4rem;">TAILORING</span><span class="ate-info-zh">剪裁工藝</span><span class="ate-info-note">決定空間結構</span></div>
+      <div class="ate-info-row"><span class="mtag t-col" style="font-size:.5rem;padding:.15rem .4rem;">COLOR LAB</span><span class="ate-info-zh">顏色系統</span><span class="ate-info-note">特定色名增加精準度</span></div>
+      <div class="ate-info-row"><span class="mtag t-fin" style="font-size:.5rem;padding:.15rem .4rem;">FINDINGS</span><span class="ate-info-zh">其他點綴</span><span class="ate-info-note">視覺點綴細節</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ COMBO MODAL ══════════ -->
+<div id="combo-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;" onclick="closeComboModal()">
+  <div style="background:var(--cream);border-radius:8px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.3);" onclick="event.stopPropagation()">
+    <div style="padding:1rem 1.4rem;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#2d2520);color:var(--parchment);display:flex;justify-content:space-between;align-items:center;border-radius:8px 8px 0 0;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;opacity:.5;margin-bottom:.2rem;">THE ATELIER</div>
+        <div style="font-family:'Dancing Script',cursive;font-size:1.2rem;">組合應用邏輯</div>
+      </div>
+      <button onclick="closeComboModal()" style="background:none;border:none;color:var(--parchment);font-size:1.2rem;cursor:pointer;opacity:.6;padding:.2rem .4rem;">✕</button>
+    </div>
+    <div style="padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:1.2rem;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">APPLICATION LOGIC</div>
+        <div style="display:flex;flex-direction:column;gap:.45rem;">
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">基礎版型 ＋ 材質面料</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">決定主體</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 剪裁細節</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">改變輪廓</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:.6rem;font-size:.78rem;flex-wrap:wrap;">
+            <span style="background:var(--ink);color:var(--parchment);font-family:'DM Mono',monospace;font-size:.55rem;padding:.15rem .5rem;border-radius:2px;white-space:nowrap;">＋ 點綴</span>
+            <span style="color:var(--muted);">→</span><span style="color:var(--ink);">出細節感</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.7rem;">EXAMPLES</div>
+        <div style="display:flex;flex-direction:column;gap:.55rem;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">thong</span> ＋ <span style="color:var(--muted);">pearl</span> → <span style="color:var(--rust);font-weight:600;">pearl thong</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">材質點綴 × 基礎版型，直接合成新詞 ── 珍珠丁字褲</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">off-shoulder</span> ＋ <span style="color:var(--muted);">lace</span> ＋ <span style="color:var(--muted);">ruffle</span> → <span style="color:var(--rust);font-weight:600;">off-shoulder lace top, ruffle trim top</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">剪裁 × 材質 × 細節，三層疊加 ── 蕾絲荷葉邊露肩上衣</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.65rem .9rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--ink);margin-bottom:.25rem;"><span style="color:var(--muted);">qipao</span> ＋ <span style="color:var(--muted);">side slit</span> ＋ <span style="color:var(--muted);">PVC</span> → <span style="color:var(--rust);font-weight:600;">PVC cheongsam, side slit</span></div>
+            <div style="font-size:.7rem;color:var(--muted);">經典版型 × 剪裁工藝 × 材質改造 ── PVC 開衩旗袍</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════ ARC MODAL ══════════ -->
 <div id="arc-modal" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(26,20,16,.72);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:1.5rem;">
@@ -686,7 +811,7 @@ function goTabByID(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.main-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const map={intro:0,archives:1,atelier:2,rtw:3};
+  const map={intro:0,archives:1,atelier:2,outfits:3,salon:4};
   const btns=document.querySelectorAll('.main-nav button');
   if(map[id]!==undefined)btns[map[id]].classList.add('active');
   document.body.className='theme-'+id;
@@ -704,10 +829,39 @@ function toggleX(btn){
   p.classList.toggle('open',!o);
   btn.classList.toggle('open',!o);
 }
+function openAteInfoModal(){
+  document.getElementById('ate-info-modal').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeAteInfoModal(){
+  document.getElementById('ate-info-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function openComboModal(){
+  const m=document.getElementById('combo-modal');
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeComboModal(){
+  document.getElementById('combo-modal').style.display='none';
+  document.body.style.overflow='';
+}
+function togglePt(el){
+  const pt=el.previousElementSibling;
+  pt.classList.toggle('expanded');
+  el.textContent=pt.classList.contains('expanded')?'收合':'展開';
+}
 function cp(btn,text){
   navigator.clipboard.writeText(text).then(()=>{
     const orig=btn.textContent;btn.textContent='COPIED';btn.classList.add('copied');
     setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},1500);
+  });
+}
+function filterOutfit(btn,cat){
+  document.querySelectorAll('#outfits .f-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#outfits [data-ocat]').forEach(g=>{
+    g.style.display=(cat==='all'||g.dataset.ocat===cat)?'':'none';
   });
 }
 function filterArc(btn,cat){
