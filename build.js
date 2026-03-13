@@ -94,17 +94,30 @@ function buildArchives(pages) {
     html += `<div class="arc-grid">`;
 
     for (const p of items) {
-      const zh      = esc(text(p["中文名稱"]));
-      const en      = esc(text(p["Name"]));
-      const prompt  = esc(text(p["Prompt Tags"]));
-      const imgs    = imgKeys.map(k => (text(p[k]) || [])[0] || "");
-      const img0    = imgs[0] || "";
-      const imgData = esc(JSON.stringify(imgs));
-      const lblData = esc(JSON.stringify(modelLabels));
-      const linkKeys   = ["ChocoMint連結","coco連結","illus_Mix2連結","Plant_Milk連結","Hoshino連結"];
-      const links      = linkKeys.map(k => p[k]?.url || "");
-      const linksData  = esc(JSON.stringify(links));
-      html += `<div class="arc-card" onclick="openArcModal('${en}','${prompt}',${imgData},${lblData},${linksData})" style="cursor:pointer;"><div class="ac-img">${singleImg(img0)}</div><div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div><div class="ac-foot"><button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button></div></div>`;
+      const zh       = esc(text(p["中文名稱"]));
+      const en       = esc(text(p["Name"]));
+      const prompt   = esc(text(p["Prompt Tags"]));
+      // 封面圖：優先用新欄位，fallback 到第一個模型圖
+      const coverArr = text(p["封面圖"]) || [];
+      const cover    = coverArr[0] || (text(p[imgKeys[0]]) || [])[0] || "";
+      const pixaiUrl = esc(p["封面圖連結"]?.url || "");
+      // 模型對比圖
+      const imgs     = imgKeys.map(k => (text(p[k]) || [])[0] || "");
+      const imgData  = esc(JSON.stringify(imgs));
+      const lblData  = esc(JSON.stringify(modelLabels));
+
+      // 卡片：點整張跳 PixAI，有連結才加 onclick
+      const cardClick = pixaiUrl
+        ? `onclick="window.open('${pixaiUrl}','_blank')"`
+        : "";
+
+      html += `<div class="arc-card" ${cardClick} style="cursor:${pixaiUrl ? 'pointer' : 'default'};">`;
+      html += `<div class="ac-img">${singleImg(cover)}</div>`;
+      html += `<div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div>`;
+      html += `<div class="ac-foot">`;
+      html += `<button class="cp-btn" onclick="event.stopPropagation();cp(this,'${prompt}')">COPY</button>`;
+      html += `<button class="cp-btn" onclick="event.stopPropagation();openArcModal('${en}','${prompt}',${imgData},${lblData})" style="margin-left:.4rem;">模型對比</button>`;
+      html += `</div></div>`;
     }
     html += `</div></div>`;
   });
