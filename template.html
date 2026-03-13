@@ -217,7 +217,7 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .sub-label::after{content:'';flex:1;height:1px;background:var(--border);}
 .sub-code{color:var(--gold);margin-right:.25rem;}
 
-.arc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem;margin-bottom:2rem;}
+.arc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem;margin-bottom:2rem;}
 .arc-card{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s,border-color .2s;}
 .arc-card:hover{box-shadow:0 5px 18px var(--shadow);transform:translateY(-2px);border-color:var(--gold);}
 .ac-img{aspect-ratio:3/4;position:relative;overflow:hidden;background:var(--parchment);}
@@ -354,8 +354,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .qa-cat-list{flex-direction:row;flex-wrap:wrap;position:static;}
   .qa-nudge{flex-direction:column;align-items:flex-start;}
 }
-.rtw-catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;margin-top:.8rem;}
-.outfit-runway{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:.8rem;}
+.rtw-catalog{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem;margin-top:.8rem;}
+.outfit-runway{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem;margin-top:.8rem;}
 .outfit-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;}
 .outfit-img{aspect-ratio:2/3;overflow:hidden;background:var(--parchment);position:relative;}
 .outfit-img img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -413,7 +413,6 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 }
 
 @media(min-width:901px){
-  /* PC 版內文整體放大約 20% */
   .i-body{font-size:1rem;}
   .intro-block-body p{font-size:1rem;}
   .leg-text{font-size:.92rem;}
@@ -436,6 +435,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   .sb-link{font-size:1rem;}
   .nt{font-size:.9rem;}
 }
+
+/* prompt 區塊限高加捲軸 */
+.prompt-box{max-height:160px;overflow-y:auto;}
 </style>
 </head>
 <body class="theme-intro">
