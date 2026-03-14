@@ -318,7 +318,14 @@ header h1 em{font-style:italic;color:var(--gold-lt);}
 .wt-chip span{color:var(--gold);}
 
 /* ── FOOTER ── */
-footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;padding:1.6rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
+footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;}
+.foot-copy{padding:1rem 1.6rem 1.6rem;}
+.about-strip{padding:1.4rem 2rem 1rem;display:flex;align-items:center;justify-content:center;gap:1.8rem;flex-wrap:wrap;}
+.about-name{font-size:.58rem;letter-spacing:.22em;color:rgba(245,240,232,.3);text-transform:uppercase;}
+.about-links{display:flex;gap:.7rem;align-items:center;}
+.about-link{display:inline-flex;align-items:center;gap:.35rem;color:rgba(245,240,232,.28);font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.1em;text-decoration:none;border:1px solid rgba(184,150,62,.18);padding:.2rem .58rem;border-radius:2px;transition:color .18s,border-color .18s;}
+.about-link:hover{color:var(--gold-lt);border-color:rgba(184,150,62,.45);}
+.about-link svg{width:10px;height:10px;flex-shrink:0;}
 
 .ate-info-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
 .ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Iansui',sans-serif;}
@@ -671,7 +678,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div class="ib-num">1</div>
       <div>
         <div class="ib-title">套用參考模板</div>
-        <span class="ib-en">COPY FROM TEMPLATE — 最快速的抄作業方法</span>
+        <span class="ib-en">COPY FROM TEMPLATE — 最快速的生成同款方法</span>
       </div>
     </div>
     <div class="how-steps">
@@ -679,7 +686,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="how-step-n">STEP 01</div>
         <div class="how-step-icon">🖼️</div>
         <div class="how-step-title">找一張喜歡的圖</div>
-        <div class="how-step-desc">在「寫真沙龍」或「成衣型錄」找到你喜歡的風格</div>
+        <div class="how-step-desc">在「經典衣櫃」、「成衣型錄」或「寫真沙龍」找到你喜歡的風格</div>
       </div>
       <div class="how-step">
         <div class="how-step-n">STEP 02</div>
@@ -691,23 +698,23 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="how-step-n">STEP 03</div>
         <div class="how-step-icon">📋</div>
         <div class="how-step-title">點「參考模板」</div>
-        <div class="how-step-desc">作品頁右上角有「參考模板」按鈕，點下去載入所有設定</div>
+        <div class="how-step-desc">作品頁右上角有「參考模板」按鈕，點下去即可載入所有設定</div>
       </div>
       <div class="how-step">
         <div class="how-step-n">STEP 04</div>
         <div class="how-step-icon">✏️</div>
         <div class="how-step-title">換上你的人設</div>
-        <div class="how-step-desc">把 prompt 最前面的人物描述換成你自己的角色詞條</div>
+        <div class="how-step-desc">把 prompt 最前面的人物描述換成你自己的人設詞條</div>
       </div>
       <div class="how-step">
         <div class="how-step-n">STEP 05</div>
         <div class="how-step-icon">✨</div>
         <div class="how-step-title">直接生成</div>
-        <div class="how-step-desc">其他參數不用動，按生成就能出同款風格</div>
+        <div class="how-step-desc">其他參數不用動，按生成就能生成同款畫風及畫面</div>
       </div>
     </div>
     <div class="how-video">
-      <div class="how-video-ph">▶ 影片教學預留位置 — 有影片後填入</div>
+      <div class="how-video-ph">▶ 影片教學 IS COMING SOON......</div>
     </div>
   </div>
 
@@ -716,7 +723,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="intro-block-head">
       <div class="ib-num">2</div>
       <div>
-        <div class="ib-title">自己組合服裝詞條</div>
+        <div class="ib-title">自己組合創意服裝提示詞</div>
         <span class="ib-en">BUILD YOUR OWN PROMPT — 進階玩法</span>
       </div>
     </div>
@@ -730,8 +737,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <div class="how-step">
         <div class="how-step-n">STEP 02</div>
         <div class="how-step-icon">🧵</div>
-        <div class="how-step-title">進製衣工坊選模組</div>
-        <div class="how-step-desc">版型 → 材質 → 剪裁 → 顏色 → 點綴，依序挑選詞條</div>
+        <div class="how-step-title">進製衣工坊選詞條</div>
+        <div class="how-step-desc">版型 → 材質 → 剪裁 → 顏色 → 點綴，可依序挑選詞條，也可隨性創意搭配</div>
       </div>
       <div class="how-step">
         <div class="how-step-n">STEP 03</div>
@@ -743,7 +750,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="how-step-n">STEP 04</div>
         <div class="how-step-icon">⚖️</div>
         <div class="how-step-title">調整權重</div>
-        <div class="how-step-desc">效果不夠明顯時用括號提高：<code style="font-family:'Space Mono',monospace;font-size:.68rem;background:var(--cream);padding:.02rem .3rem;">(keyword:1.3)</code></div>
+        <div class="how-step-desc">效果不夠明顯時可以用括號提高，可以疊加括號層數或加上權重數字：<code style="font-family:'Space Mono',monospace;font-size:.68rem;background:var(--cream);padding:.02rem .3rem;">(keyword:1.3)或((keyword))</code></div>
       </div>
     </div>
   </div>
@@ -759,41 +766,41 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="sitemap-num">01</div>
         <span class="sitemap-en">The Archives</span>
         <div class="sitemap-title">經典衣櫃</div>
-        <div class="sitemap-desc">模型原生支援的款式詞條，附封面示意圖與五模型對比，直接複製就能用。</div>
+        <div class="sitemap-desc">大多數模型都認識的經典基本款服裝詞組，直接複製就能用。</div>
         <span class="sitemap-arr">→</span>
       </button>
       <button class="sitemap-card" onclick="goTabByID('atelier')">
         <div class="sitemap-num">02</div>
         <span class="sitemap-en">The Atelier</span>
         <div class="sitemap-title">製衣工坊</div>
-        <div class="sitemap-desc">五大模組元件：版型、材質、剪裁、顏色、點綴，自由組合出想要的服裝。</div>
+        <div class="sitemap-desc">五大類服裝相關的模組詞條：版型、材質、剪裁、顏色、點綴，自由組合搭配。</div>
         <span class="sitemap-arr">→</span>
       </button>
       <button class="sitemap-card" onclick="goTabByID('outfits')">
         <div class="sitemap-num">03</div>
         <span class="sitemap-en">The Outfit Catalogue</span>
         <div class="sitemap-title">成衣型錄</div>
-        <div class="sitemap-desc">整套穿搭組合，純服裝 prompt，可直接套用或拆解使用，附 PixAI 範本連結。</div>
+        <div class="sitemap-desc">我嘗試過的穿搭組合，純服裝 prompt 分享，可直接套用或拆解使用。</div>
         <span class="sitemap-arr">→</span>
       </button>
       <button class="sitemap-card" onclick="goTabByID('salon')">
         <div class="sitemap-num">04</div>
         <span class="sitemap-en">The Photography Studio</span>
         <div class="sitemap-title">寫真沙龍</div>
-        <div class="sitemap-desc">不同主題場景的完整 prompt 分享，附 PixAI 範本連結，可直接替換人設試穿。</div>
+        <div class="sitemap-desc">不同主題場景的完整 prompt 分享，附 PixAI 連結，可直接替換人設進行生成。</div>
         <span class="sitemap-arr">→</span>
       </button>
       <button class="sitemap-card" onclick="goTabByID('qa')">
         <div class="sitemap-num">05</div>
         <span class="sitemap-en">Troubleshooting Q&amp;A</span>
         <div class="sitemap-title">常見問題</div>
-        <div class="sitemap-desc">圖出來不對勁？服裝跑掉？LoRA 怎麼用？常見問題和排錯方法都在這裡。</div>
+        <div class="sitemap-desc">圖面品質、服裝生成、LoRA 搭配、模型選擇⋯⋯算圖遇到問題來這裡找答案。</div>
         <span class="sitemap-arr">→</span>
       </button>
     </div>
   </div>
 
-  <!-- ══ 3. 使用模型 ══ -->
+  <!-- ══ 3. 我愛用的模型 ══ -->
   <div class="intro-block">
     <div class="intro-block-head">
       <div class="ib-num">4</div>
@@ -851,9 +858,9 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     </div>
     <div class="notes-list">
       <div class="note-item"><span class="note-bullet">◆</span><span>本手冊所有提示詞以 <strong>SDXL 架構</strong>為測試基準，DiT架構的模型及不同生圖平台的識別率可能有差異。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、配置不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調會導致畫面失真。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>成衣型錄的「套裝提案」是本人嘗試過的不同紀錄，可作為靈感與參考。</span></div>
-      <div class="note-item"><span class="note-bullet">◆</span><span>手冊持續更新中，有新的詞條測試結果或組合配方會慢慢補充到對應區塊。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、配置LoRA及參數不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調可能會導致圖面歪七扭八。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>成衣型錄的服裝詞組是我嘗試過的不同紀錄，可作為靈感與參考。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>持續更新中，有新的詞條測試結果或組合配方會補充到對應區塊。</span></div>
     </div>
   </div>
 
@@ -869,7 +876,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-info">
       <span class="sec-en">The Archives</span>
       <h2>經典衣櫃</h2>
-      <p>模型原本就能識別的「成衣」詞條，無需複雜描述即可生成的單品。</p>
+      <p>經典款服裝詞組，無需複雜描述即可生成的單品。能複製詞組直接用，也可以點圖連到 PixAI 換上自己的人設生圖。</p>
       <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">所有服裝詞條男女皆可使用，分類僅供參考，依據常見穿搭習慣大致歸類。</p>
     </div>
   </div>
@@ -903,7 +910,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-info">
       <span class="sec-en">The Atelier — Production Line</span>
       <h2>製衣工坊</h2>
-      <p>模組化元件組合，手動建構服裝細節。</p>
+      <p>模組化元件組合，手動建構服裝細節。把服裝相關的詞條按性質概略分成五類，自由搭配，具象化你的創意。</p>
     </div>
   </div>
   <div class="with-sidebar">
@@ -932,7 +939,8 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-info">
       <span class="sec-en">The Outfit Catalogue</span>
       <h2>成衣型錄</h2>
-      <p>整套穿搭組合，純服裝 prompt，可直接拆解或套用。</p>
+      <p>我組過的整套穿搭 prompt，點 COPY 複製後套上自己的人設，就能幫人物穿上同款服裝。</p>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">備註：不同模型跑出來的效果可能會有差異</p>
     </div>
   </div>
   <div class="with-sidebar">
@@ -964,7 +972,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <div class="sec-info">
       <span class="sec-en">The Photography Studio</span>
       <h2>寫真沙龍</h2>
-      <p>嘗試過的不同主題 prompt 分享，可直接套用自己的人設進行試穿。</p>
+      <p>我的不同主題 prompt 分享，點 COPY 直接複製，或點圖進 PixAI 換上自己的人設，生成同款寫真。</p>
     </div>
   </div>
   <div class="with-sidebar">
@@ -1016,7 +1024,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 要怎麼用？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">點擊任一卡片右下角的 <strong>COPY</strong> 按鈕，prompt 就會複製到剪貼簿。<br>直接貼到 PixAI 或其他算圖工具的正向 prompt 欄位即可。<br>建議在最前面放你自己的人設描述，再接服裝詞條。</div>
+          <div class="qa-a">點擊任一卡片上的 <strong>COPY</strong> 按鈕，prompt 就會複製到剪貼簿。<br>直接貼到 PixAI 或其他算圖工具的 prompt 欄位即可。<br>記得要改人設唷！</div>
         </div>
 
         <div class="qa-item">
@@ -1026,17 +1034,17 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">經典衣櫃和成衣型錄有什麼差別？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">· <strong>經典衣櫃</strong> — 收錄模型本來就認識的服裝詞組，例如護士裝就是從護士帽到鞋子的完整一套詞條，可以直接套用或拆開使用<br>· <strong>成衣型錄</strong> — 作者自己嘗試組合出來的穿搭詞條，是用製衣工坊的概念拼湊出的新組合<br><br>想找現成認識度高的服裝用經典衣櫃；想找有趣的穿搭組合靈感用成衣型錄。</div>
+          <div class="qa-a">· <strong>經典衣櫃</strong> — 收錄大多數模型本來就認識的服裝詞組，例如護士裝就是從護士帽到鞋子的完整一套詞條，可以直接套用或拆開使用<br>· <strong>成衣型錄</strong> — 我組合出來的穿搭詞條，是用製衣工坊的概念拼湊出的新組合<br><br>想找現成認識度高的服裝用經典衣櫃；想找有趣的穿搭組合靈感用成衣型錄。</div>
         </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">製衣工坊的詞條要怎麼搭配使用？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">製衣工坊把服裝拆成五個模組：版型、材質、剪裁、顏色、點綴。<br>建議的組合邏輯是：<br><br><strong>版型</strong>（決定輪廓）→ <strong>材質</strong>（決定質感）→ <strong>剪裁細節</strong>（加特色）→ <strong>顏色</strong> → <strong>點綴</strong>（可選）<br><br>散詞：<code>dress, silk, off-shoulder, white, lace trim</code><br>組合成：<code>white silk off-shoulder dress, lace trim</code>，表示「白色絲質露肩洋裝，蕾絲裝飾」。<br><br>形容詞放在服裝詞前面，點綴類的配件詞用逗號接在後面即可。<br>可以參考頁面上的「組合示範」彈窗看更多例子。</div>
+          <div class="qa-a">製衣工坊把服裝相關的詞條概略分成五個模組：版型、材質、剪裁、顏色、點綴。<br>建議的組合邏輯是：<br><br><strong>版型</strong>（決定輪廓）→ <strong>材質</strong>（決定質感）→ <strong>剪裁細節</strong>（加特色）→ <strong>顏色</strong> → <strong>點綴</strong>（可選）<br><br>散詞：<code>dress, silk, off-shoulder, white, lace trim</code><br>組合成：<code>white silk off-shoulder dress, lace trim</code>，表示「白色絲質露肩洋裝，蕾絲裝飾」。<br><br>形容詞放在服裝詞前面，點綴類的配件詞用逗號接在後面即可。<br>可以參考頁面上的「組合示範」彈窗看更多例子。</div>
         </div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">寫真沙龍的「在 PixAI 開啟」連結是什麼？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">點擊連結會直接在 PixAI 開啟對應的模型頁面，並帶入預設的 prompt 和參數設定。<br>你只需要換上自己的人設描述，其餘設定都已經調好，省去重新設定的步驟。</div>
+          <div class="qa-q" onclick="toggleQA(this)">我可以怎麼生成同款圖片？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">在「經典衣櫃」和「寫真沙龍」點擊圖片會直接在 PixAI 開啟對應的模型頁面，並帶入預設的 prompt 和參數設定。<br>你只需要換上自己的人設描述，其餘設定都已經調好，省去重新設定的步驟。</div>
         </div>
       </div>
 
@@ -1045,18 +1053,18 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="qa-group-title">QUALITY — 圖面品質</div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">圖片整體很模糊，細節不夠清晰<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">可以嘗試以下幾個方向：<br>① 增加 steps 或提高 cfg<br>② 在 prompt 加入 <code>masterpiece, best quality, highres</code><br>③ 使用 Hires.fix 或圖生圖放大，效果比直接拉大尺寸好</div>
+          <div class="qa-q" onclick="toggleQA(this)">圖片整體很模糊，細節不夠清晰，我該怎麼辦？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">可以嘗試以下幾個方向：<br>① 增加步數 (steps) 或提高 CFG Scale<br>② 在 prompt 加入 <code>masterpiece, best quality, highres等品質詞條</code><br>③ 使用 Hires.fix 或圖生圖放大，效果比直接拉大尺寸好</div>
         </div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">圖片有很多噪點或顆粒感<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">通常是 steps 不夠或取樣方式設定的問題。<br>① 增加 steps<br>② 取樣方式改用 DPM++ 2M Karras 或 Euler a<br>③ 確認 denoise strength 沒有設太高（圖生圖模式）</div>
+          <div class="qa-q" onclick="toggleQA(this)">圖片有很多噪點或顆粒感，可以怎麼解決？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">通常是步數 (steps) 不夠或取樣方式設定的問題。<br>① 增加步數 (steps) <br>② 取樣方式改用 DPM++ 2M Karras 或 Euler a<br>③ 確認 denoise strength 沒有設太高（圖生圖模式）</div>
         </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">圖面出現奇怪的色塊或色斑<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">色斑通常是 cfg 設太高導致模型過度渲染。<br>① 嘗試降低 cfg（PixAI 建議維持在 7 以下）<br>② 也可以換個 seed 重跑，有時候只是那張 seed 不穩定</div>
+          <div class="qa-a">色斑通常是 CFG Scale 設太高導致模型過度渲染。<br>① 嘗試降低 CFG Scale（PixAI 建議維持在 7 以下）<br>② 也可以換個 seed 重跑，有時候只是那張 seed 不穩定</div>
         </div>
 
         <div class="qa-item">
@@ -1148,7 +1156,17 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
           <div class="qa-q" onclick="toggleQA(this)">LoRA 的觸發詞是什麼？一定要加嗎？<span class="qa-q-arrow">▼</span></div>
           <div class="qa-a">觸發詞（trigger word）是啟動 LoRA 特定效果的關鍵字，通常由 LoRA 作者設定。<br>有些 LoRA 沒有觸發詞也有效果，但有些必須加了觸發詞才會正常運作。<br><br>觸發詞通常標註在 LoRA 的說明頁，建議使用前先查看一下。</div>
         </div>
-      </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">疊了多個 LoRA 但畫面反而變糊或太厚重？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">通常是風格太接近的 LoRA 疊在一起互相強化導致的。例如同時套用三個 Niji 風格的 LoRA，效果會疊加得過於厚重，畫面反而糊掉。<br>建議：<br>① 同類型的 LoRA 選一個就好，不需要多個<br>② 若一定要疊，把每個 LoRA 的權重都調低，讓它們各自微調而不是完全疊加</div>
+        </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">LoRA 可以怎麼搭配使用？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">功能不同的 LoRA 疊加效果通常比同類型的好。常見的組合邏輯是「風格 LoRA + 補強 LoRA」，例如套用某個插畫風格的 LoRA 時，搭配 Detail Tweaker XL 這類細節補強 LoRA，可以在保留風格的同時提升畫面細節與清晰度。<br>疊加多個 LoRA 時建議分別調低權重：風格類約 0.6–0.8，補強效果類約 0.3–0.5，避免單個 LoRA 的影響過強蓋過其他的。</div>
+        </div>
+       </div>
 
       <!-- 模型選擇 -->
       <div class="qa-group" id="qa-model">
@@ -1160,7 +1178,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         </div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">同樣的 prompt 換模型後效果差很多<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-q" onclick="toggleQA(this)">同樣的 prompt 換模型後效果不同是正常的嗎？<span class="qa-q-arrow">▼</span></div>
           <div class="qa-a">這是正常現象。不同底模對詞條的認識程度不一樣，建議：<br>① 先在多個模型各跑幾張觀察差異<br>② 經典衣櫃的對比圖可以幫助快速判斷哪個模型比較能識別該款服裝<br>③ 認識度低的模型可以加強詞條權重補救</div>
         </div>
 
@@ -1182,18 +1200,13 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="qa-group-title">MISC — 其他問題</div>
 
         <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">加了很多 prompt 但效果和沒加一樣<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-q" onclick="toggleQA(this)">加了很多 prompt 但效果和沒加一樣？<span class="qa-q-arrow">▼</span></div>
           <div class="qa-a">prompt 太長時後面的詞影響力會衰減。建議：<br>① 把最重要的詞放在最前面<br>② 刪除冗餘或重複的描述，聚焦在關鍵詞<br>③ 適當使用括號提高重要詞的權重，但不要全部都加，反而會互相抵消</div>
         </div>
 
         <div class="qa-item">
           <div class="qa-q" onclick="toggleQA(this)">每次生成的圖差異太大，風格不穩定<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">① 固定 seed 可以讓構圖和風格更穩定<br>② 降低 cfg 可以減少隨機性（建議 6–7 之間）<br>③ 增加 prompt 中對風格的描述，例如 <code>anime style</code>、<code>illustration</code></div>
-        </div>
-
-        <div class="qa-item">
-          <div class="qa-q" onclick="toggleQA(this)">這個網站的 prompt 可以直接複製去其他平台用嗎？<span class="qa-q-arrow">▼</span></div>
-          <div class="qa-a">可以！這裡的 prompt 都是純文字服裝詞條，沒有綁定特定平台或模型。<br>不過不同平台的底模和參數設定不同，實際效果可能會有落差，建議搭配對應的基本品質詞使用。</div>
+          <div class="qa-a">① 固定 seed 可以讓構圖和風格更穩定<br>② 降低 CFG Scale 可以減少隨機性（建議 6–7 之間）<br>③ 增加 prompt 中對風格的描述，例如 <code>anime style</code>、<code>illustration</code></div>
         </div>
       </div>
 
@@ -1288,7 +1301,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
     <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">16</span>
   </div>
   <div style="display:flex;align-items:center;gap:.5rem;">
-    <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">CFG</span>
+    <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">CFG Scale</span>
     <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">3.1</span>
   </div>
   <div style="display:flex;align-items:center;gap:.5rem;">
@@ -1306,7 +1319,22 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
   </div>
 </div>
 
-<footer>AI CLOTHING PROMPT DICTIONARY & SHARING · PixAI · SDXL · v0.1 · 酌的衣帽間</footer>
+<footer>
+  <div class="about-strip">
+    <span class="about-name">酌淺</span>
+    <div class="about-links">
+      <a class="about-link" href="https://pixai.art/zh/@zhuochien" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        PixAI
+      </a>
+      <a class="about-link" href="https://www.threads.com/@adhdddddyyda" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/><path d="M8 12c0-2.21 1.79-4 4-4s4 1.79 4 4-1.79 4-4 4"/><path d="M12 8v8"/></svg>
+        Threads
+      </a>
+    </div>
+  </div>
+  <div class="foot-copy">AI CLOTHING PROMPT DICTIONARY &amp; SHARING · PixAI · SDXL · v0.1 · 酌的衣帽間</div>
+</footer>
 
 <script>
 function goTab(id,btn){
