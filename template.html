@@ -502,18 +502,16 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
  /* 手機版：單欄橫式，圖左內容右 */
   .rtw-catalog{grid-template-columns:1fr;}
   .outfit-runway{grid-template-columns:1fr;}          /* ← 改成1欄 */
-
 /* rtw-card 保持橫式，圖片固定寬度 */
   .rtw-card{flex-direction:row;}                      /* ← 不改方向 */
-  .rtw-img{width:90px;min-width:90px;flex-shrink:0;}  /* ← 縮窄一點 */
+  .rtw-img{width:90px;min-width:90px;flex-shrink:0;align-self:stretch;}  /* ← 縮窄一點 */
 /* 不設 aspect-ratio，讓高度跟著卡片內容撐 */
-
 /* outfit-card 同樣保持橫式 */
   .outfit-card{flex-direction:row;}                   /* ← 不改方向 */
-  .outfit-img{width:90px;min-width:90px;flex-shrink:0;aspect-ratio:unset;} /* ← 移除固定比例 */
-
+  .outfit-img{width:90px;min-width:90px;flex-shrink:0;align-self:stretch;} /* ← 移除固定比例 */
 /* 展開時圖片跟著撐高的關鍵 */
-.rtw-img img,.outfit-img img{height:100%;object-fit:cover;}
+.rtw-img img,.outfit-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;}
+ .rtw-img,.outfit-img{position:relative;}
   .pt-toggle{display:inline-block;}
   .pt{display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;}
   .pt.expanded{display:block !important;overflow:visible;}
