@@ -1,18 +1,86 @@
 // ─────────────────────────────────────────────
 //  build.js  —  對應實際 Notion 欄位名稱版本
+//  圖片本地化：build 時自動下載 Notion S3 圖片到 dist/img/
 // ─────────────────────────────────────────────
 const { Client } = require("@notionhq/client");
-const fs = require("fs");
- 
+const fs   = require("fs");
+const path = require("path");
+const https = require("https");
+const http  = require("http");
+const crypto = require("crypto");
+
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
- 
+
 const DB = {
   archives: process.env.DB_ARCHIVES,
   atelier:  process.env.DB_ATELIER,
   salon:    process.env.DB_SALON,
   outfits:  process.env.DB_OUTFITS,
 };
- 
+
+// ─── 圖片下載工具 ────────────────────────────────
+const IMG_DIR = path.join("dist", "img");
+
+function ensureImgDir() {
+  if (!fs.existsSync("dist"))    fs.mkdirSync("dist");
+  if (!fs.existsSync(IMG_DIR))   fs.mkdirSync(IMG_DIR);
+}
+
+// 用 URL 的純路徑部分（去掉 query string）產生穩定的檔名
+function urlToFilename(url) {
+  const cleanPath = url.split("?")[0];
+  const ext = cleanPath.split(".").pop().split("/").pop() || "jpg";
+  const hash = crypto.createHash("md5").update(cleanPath).digest("hex").slice(0, 12);
+  return `${hash}.${ext}`;
+}
+
+function downloadImg(url) {
+  return new Promise((resolve) => {
+    if (!url) return resolve("");
+
+    const filename = urlToFilename(url);
+    const dest     = path.join(IMG_DIR, filename);
+    const webPath  = `img/${filename}`;
+
+    // 已存在就直接回傳，不重複下載
+    if (fs.existsSync(dest)) return resolve(webPath);
+
+    const lib = url.startsWith("https") ? https : http;
+    const file = fs.createWriteStream(dest);
+
+    lib.get(url, (res) => {
+      // 跟隨 redirect
+      if (res.statusCode === 301 || res.statusCode === 302) {
+        file.close();
+        fs.unlink(dest, () => {});
+        return resolve(downloadImg(res.headers.location));
+      }
+      if (res.statusCode !== 200) {
+        file.close();
+        fs.unlink(dest, () => {});
+        console.warn(`⚠️  圖片下載失敗 (${res.statusCode}): ${url.slice(0, 80)}...`);
+        return resolve("");
+      }
+      res.pipe(file);
+      file.on("finish", () => {
+        file.close();
+        resolve(webPath);
+      });
+    }).on("error", (err) => {
+      file.close();
+      fs.unlink(dest, () => {});
+      console.warn(`⚠️  圖片下載錯誤: ${err.message}`);
+      resolve("");
+    });
+  });
+}
+
+// 批次下載一組 URL，回傳對應的本地路徑陣列
+async function downloadImgs(urls) {
+  return Promise.all(urls.map(u => downloadImg(u)));
+}
+
+// ─── Notion 資料工具 ──────────────────────────────
 function text(prop) {
   if (!prop) return "";
   if (prop.type === "title")        return prop.title.map(t => t.plain_text).join("");
@@ -26,13 +94,13 @@ function text(prop) {
   ).filter(Boolean);
   return "";
 }
- 
+
 function esc(str) {
   return String(str)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;")
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
- 
+
 async function fetchDB(dbId) {
   const pages = [];
   let cursor;
@@ -47,26 +115,26 @@ async function fetchDB(dbId) {
   } while (cursor);
   return pages;
 }
- 
+
 function imgCell(url, label) {
   if (url) return `<div class="tc"><img src="${esc(url)}" alt="${esc(label)}" loading="lazy"><div class="tc-lbl">${esc(label)}</div></div>`;
   return `<div class="tc"><div class="tc-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><div class="tc-lbl">${esc(label)}</div></div>`;
 }
- 
+
 function singleImg(url) {
   if (url) return `<img src="${esc(url)}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">`;
   return `<div class="ac-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>示意圖</span></div>`;
 }
- 
-// 01 經典衣櫃
-function buildArchives(pages) {
+
+// ─── 01 經典衣櫃 ──────────────────────────────────
+async function buildArchives(pages) {
   const groups = {};
   const order  = [];
   for (const page of pages) {
     const p   = page.properties;
     const cat = text(p["分類"]) || "其他";
     if (!groups[cat]) { groups[cat] = []; order.push(cat); }
-    groups[cat].push(p);
+    groups[cat].push({ p, id: page.id });
   }
 
   function toSlug(str) {
@@ -80,11 +148,11 @@ function buildArchives(pages) {
   let filter = `<button class="f-btn active" onclick="filterArc(this,'all')">全部</button>`;
   let html   = "";
 
-  order.forEach((cat, idx) => {
-    const items = groups[cat];
-    const slug  = toSlug(cat);
-    const code  = String(idx + 1).padStart(2, "0");
-    const first = idx === 0 ? " active" : "";
+  for (const [idx, cat] of order.entries()) {
+    const entries = groups[cat];
+    const slug    = toSlug(cat);
+    const code    = String(idx + 1).padStart(2, "0");
+    const first   = idx === 0 ? " active" : "";
 
     toc    += `<div class="sb-link${first}" onclick="scrollTo2('a-${slug}','arc-toc',this)"><span class="sb-dot"></span>${code} ${esc(cat)}</div>`;
     filter += `<button class="f-btn" onclick="filterArc(this,'${slug}')">${esc(cat)}</button>`;
@@ -93,20 +161,23 @@ function buildArchives(pages) {
     html += `<div class="sub-label"><span class="sub-code">${code}</span>${esc(cat)}</div>`;
     html += `<div class="arc-grid">`;
 
-    for (const p of items) {
-      const zh       = esc(text(p["中文名稱"]));
-      const en       = esc(text(p["Name"]));
-      const prompt   = esc(text(p["Prompt Tags"]));
-      // 封面圖：優先用新欄位，fallback 到第一個模型圖
-      const coverArr = text(p["封面圖"]) || [];
-      const cover    = coverArr[0] || (text(p[imgKeys[0]]) || [])[0] || "";
+    for (const { p, id } of entries) {
+      const zh     = esc(text(p["中文名稱"]));
+      const en     = esc(text(p["Name"]));
+      const prompt = esc(text(p["Prompt Tags"]));
       const pixaiUrl = esc(p["封面圖連結"]?.url || "");
-      // 模型對比圖
-      const imgs     = imgKeys.map(k => (text(p[k]) || [])[0] || "");
-      const imgData  = esc(JSON.stringify(imgs));
-      const lblData  = esc(JSON.stringify(modelLabels));
 
-      // 卡片：點整張跳 PixAI，有連結才加 onclick
+      // 下載封面圖
+      const coverSrcArr = text(p["封面圖"]) || [];
+      const coverSrc    = coverSrcArr[0] || (text(p[imgKeys[0]]) || [])[0] || "";
+      const cover       = await downloadImg(coverSrc);
+
+      // 下載模型對比圖
+      const modelSrcs = imgKeys.map(k => (text(p[k]) || [])[0] || "");
+      const modelImgs = await downloadImgs(modelSrcs);
+      const imgData   = esc(JSON.stringify(modelImgs));
+      const lblData   = esc(JSON.stringify(modelLabels));
+
       const cardClick = pixaiUrl
         ? `onclick="window.open('${pixaiUrl}','_blank')"`
         : "";
@@ -120,15 +191,14 @@ function buildArchives(pages) {
       html += `</div></div>`;
     }
     html += `</div></div>`;
-  });
+  }
 
   return { html, toc, filter };
 }
- 
-// 02 製衣工坊
+
+// ─── 02 製衣工坊 ──────────────────────────────────
 // 欄位：分類(select) 子分類(select) 中文名稱(title) Prompt Tags 備註 發布
 function buildAtelier(pages) {
-  // 五大分類對應的 tag 樣式（固定）
   const modMeta = {
     "基礎版型": { tag:"t-sil", tagText:"SILHOUETTE" },
     "材質面料": { tag:"t-fab", tagText:"FABRIC" },
@@ -141,10 +211,9 @@ function buildAtelier(pages) {
     return "ate-" + str.replace(/\s+/g,"-").replace(/[^\w\u4e00-\u9fff-]/g,"");
   }
 
-  // 建立 大分類 → 子分類 → 詞條 的巢狀結構，保留出現順序
   const catOrder = [];
-  const subOrder = {}; // cat -> [sub, ...]
-  const items    = {}; // cat -> sub -> [p, ...]
+  const subOrder = {};
+  const items    = {};
 
   for (const page of pages) {
     const p   = page.properties;
@@ -156,7 +225,6 @@ function buildAtelier(pages) {
     items[cat][sub].push(p);
   }
 
-  // ── sidebar TOC ──
   let toc = "";
   for (const cat of catOrder) {
     const catId  = toId(cat);
@@ -178,7 +246,6 @@ function buildAtelier(pages) {
     }
   }
 
-  // ── 主內容 ──
   let html = `<div id="ate-list" class="ate-list">`;
 
   for (const cat of catOrder) {
@@ -221,10 +288,10 @@ function buildAtelier(pages) {
   html += `</div>`;
   return { html, toc };
 }
- 
-// 03 成衣型錄
-// 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt pixAI衣櫃(files) pixAI連結(url)
-function buildSalon(pages) {
+
+// ─── 03 寫真沙龍 ──────────────────────────────────
+// 欄位：序號 名稱(title) 系列(select) 性別(select) 發布 Prompt PixAI衣櫃(files) PixAI連結(url)
+async function buildSalon(pages) {
   const groups = {};
   const order  = [];
   for (const page of pages) {
@@ -237,7 +304,7 @@ function buildSalon(pages) {
   let toc  = "";
   let html = "";
 
-  order.forEach((series, idx) => {
+  for (const [idx, series] of order.entries()) {
     const items    = groups[series];
     const anchorId = `salon-${series.replace(/\s/g,"-")}`;
     const first    = idx === 0 ? " active" : "";
@@ -251,11 +318,14 @@ function buildSalon(pages) {
     for (const p of items) {
       const name     = esc(text(p["名稱"]));
       const prompt   = esc(text(p["Prompt"]));
-      const imgs     = text(p["PixAI衣櫃"]) || [];
-      const img0     = imgs[0] || "";
+      const imgSrcs  = text(p["PixAI衣櫃"]) || [];
       const pixaiUrl = p["PixAI連結"]?.url || "";
       const _gender  = text(p["性別"]);
       const genders  = _gender ? `<span class="rtw-tag">${esc(_gender)}</span>` : "";
+
+      // 下載圖片
+      const imgs = await downloadImgs(imgSrcs);
+      const img0 = imgs[0] || "";
 
       html += `<div class="rtw-card"><div class="rtw-img">`;
       if (img0) {
@@ -276,22 +346,21 @@ function buildSalon(pages) {
       html += `</div></div></div>`;
     }
     html += `</div></div>`;
-  });
+  }
 
   return { html, toc };
 }
 
-function buildOutfits(pages) {
-  // 欄位：性別(select)  簡單分類(select)  名稱(title)  Prompt  示意圖  PixAI連結
+// ─── 04 成衣型錄 ──────────────────────────────────
+// 欄位：性別(select) 簡單分類(select) 名稱(title) Prompt 示意圖 PixAI連結
+async function buildOutfits(pages) {
   function toOId(str) {
     return "out-" + str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
   }
 
-  // 建立 性別 → 子分類 → 詞條 的巢狀結構，保留出現順序
-  // 固定大分類順序：女 → 男
   const GENDER_ORDER = [["女", "female"], ["男", "male"]];
-  const subOrder = {};  // gender -> [sub, ...]
-  const items    = {};  // gender -> sub -> [p, ...]
+  const subOrder = {};
+  const items    = {};
 
   for (const page of pages) {
     const p      = page.properties;
@@ -307,13 +376,12 @@ function buildOutfits(pages) {
   let filter = `<button class="f-btn active" onclick="filterOutfit(this,'all')">全部</button>`;
   let html   = "";
 
-  GENDER_ORDER.forEach(([gender, slug], idx) => {
-    if (!items[gender]) return;
+  for (const [idx, [gender, slug]] of GENDER_ORDER.entries()) {
+    if (!items[gender]) continue;
     const catId  = toOId(gender);
     const hasSub = subOrder[gender].some(s => s !== "");
     const first  = idx === 0 ? " active" : "";
 
-    // ── sidebar TOC ──
     toc += `
 <div class="ate-toc-cat${first}" onclick="outfitTocToggle(this,'${catId}')">
   <span class="sb-dot"></span>
@@ -332,7 +400,6 @@ function buildOutfits(pages) {
 
     filter += `<button class="f-btn" onclick="filterOutfit(this,'${slug}')">${gender}</button>`;
 
-    // ── 主內容 ──
     html += `<div id="${catId}" data-ocat="${slug}" style="margin-top:2rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${gender}模特兒</span></div>`;
 
@@ -349,9 +416,12 @@ function buildOutfits(pages) {
       for (const p of items[gender][sub]) {
         const name     = esc(text(p["名稱"]));
         const prompt   = esc(text(p["Prompt"]));
-        const imgs     = text(p["示意圖"]) || [];
+        const imgSrcs  = text(p["示意圖"]) || [];
         const pixaiUrl = p["PixAI連結"]?.url || "";
         const cid      = `oc-${Math.random().toString(36).slice(2, 8)}`;
+
+        // 下載圖片
+        const imgs = await downloadImgs(imgSrcs);
 
         html += `<div class="outfit-card"><div class="outfit-img" id="${cid}">`;
         if (imgs.length === 0) {
@@ -372,12 +442,13 @@ function buildOutfits(pages) {
           imgs.forEach((_, i) => { html += `<div class="outfit-dot${i === 0 ? ' active' : ''}" onclick="outfitGo('${cid}',${i})"></div>`; });
           html += `</div>`;
         }
+
         const pid2 = `op-${Math.random().toString(36).slice(2, 8)}`;
         html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
         html += `<div class="rtw-prompt-wrap">`;
         html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
         html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
-        html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
+        html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-arrow">▼</span></div>`;
         html += `</div></div></div>`;
       }
 
@@ -386,28 +457,35 @@ function buildOutfits(pages) {
     }
 
     html += `</div>`; // data-ocat
-  });
+  }
 
   return { html, toc, filter };
 }
 
+// ─── 主程式 ───────────────────────────────────────
 async function main() {
+  ensureImgDir();
   console.log("📦 抓取 Notion 資料...");
+
   const [archivesPages, atelierPages, salonPages, outfitsPages] = await Promise.all([
     fetchDB(DB.archives),
     fetchDB(DB.atelier),
     fetchDB(DB.salon),
     fetchDB(DB.outfits),
   ]);
+
   console.log(`✅ 經典衣櫃：${archivesPages.length} 筆`);
   console.log(`✅ 製衣工坊：${atelierPages.length} 筆`);
   console.log(`✅ 寫真沙龍：${salonPages.length} 筆`);
   console.log(`✅ 成衣型錄：${outfitsPages.length} 筆`);
+  console.log("🖼️  下載圖片中...");
 
-  const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = buildArchives(archivesPages);
+  const { html: archivesHtml, toc: archivesToc, filter: archivesFilter } = await buildArchives(archivesPages);
   const { html: atelierHtml,  toc: atelierToc }                          = buildAtelier(atelierPages);
-  const { html: salonHtml,    toc: salonToc }                            = buildSalon(salonPages);
-  const { html: outfitsHtml,  toc: outfitsToc, filter: outfitsFilter }  = buildOutfits(outfitsPages);
+  const { html: salonHtml,    toc: salonToc }                            = await buildSalon(salonPages);
+  const { html: outfitsHtml,  toc: outfitsToc, filter: outfitsFilter }  = await buildOutfits(outfitsPages);
+
+  console.log("✅ 圖片下載完成！");
 
   let template = fs.readFileSync("template.html", "utf8");
   template = template
@@ -423,7 +501,6 @@ async function main() {
     .replace("<!-- OUTFITS_FILTER -->",   outfitsFilter)
     .replace("<!-- BUILD_TIME -->",       `<!-- built: ${new Date().toISOString()} -->`);
 
-  if (!fs.existsSync("dist")) fs.mkdirSync("dist");
   fs.writeFileSync("dist/index.html", template, "utf8");
   console.log("🎉 dist/index.html 產生完成！");
 }
