@@ -313,7 +313,47 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 .ate-info-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
 .ate-info-zh{font-size:.72rem;color:var(--ink);font-family:'Iansui',sans-serif;}
 .ate-info-note{font-size:.65rem;color:var(--muted);margin-left:auto;text-align:right;}
-/* ── 製衣工坊 篩選 ── */
+/* ── 製衣工坊 sidebar 層級 ── */
+.ate-toc-cat{display:flex;align-items:center;gap:.55rem;padding:.62rem .95rem;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--ink);cursor:pointer;transition:background .15s;user-select:none;}
+.ate-toc-cat:hover{background:var(--parchment);}
+.ate-toc-cat.active{background:var(--ink);color:var(--gold-lt);}
+.ate-toc-arrow{margin-left:auto;font-size:.6rem;transition:transform .2s;color:var(--muted);}
+.ate-toc-cat.open .ate-toc-arrow{transform:rotate(180deg);}
+.ate-toc-subs{display:none;border-bottom:1px solid var(--border);}
+.ate-toc-subs.open{display:block;}
+.ate-toc-sub{padding:.45rem .95rem .45rem 2rem;font-size:.76rem;color:var(--muted);cursor:pointer;transition:background .15s,color .15s;border-bottom:1px solid var(--border);}
+.ate-toc-sub:last-child{border-bottom:none;}
+.ate-toc-sub:hover{background:var(--parchment);color:var(--ink);}
+.ate-toc-sub.active{color:var(--gold);font-weight:500;}
+/* 製衣工坊內容層級 */
+.ate-cat-block{margin-bottom:2.5rem;}
+.ate-sub-block{margin-bottom:1.5rem;}
+.ate-sub-label{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;padding:.45rem 0 .6rem;border-bottom:1px solid var(--border);margin-bottom:.7rem;}
+
+/* ── 說明頁 步驟圖 ── */
+.how-block{background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:1.6rem;}
+.how-steps{display:flex;align-items:stretch;overflow-x:auto;}
+.how-step{flex:1;min-width:130px;padding:1.2rem 1rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;position:relative;}
+.how-step+.how-step::before{content:'→';position:absolute;left:0;top:50%;transform:translateY(-50%);color:var(--border);font-size:1rem;}
+.how-step-n{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;color:var(--gold);}
+.how-step-icon{font-size:1.6rem;line-height:1;}
+.how-step-title{font-size:.82rem;font-weight:500;color:var(--ink);}
+.how-step-desc{font-size:.7rem;color:var(--muted);line-height:1.6;}
+.how-video{border-top:1px solid var(--border);padding:1.2rem 1.4rem;background:var(--cream);}
+.how-video-ph{border:2px dashed var(--border);border-radius:4px;padding:2rem;text-align:center;color:var(--muted);font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;}
+
+/* ── 說明頁 導覽地圖 ── */
+.sitemap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;padding:1.2rem 1.4rem 1.4rem;}
+.sitemap-card{background:var(--parchment);border:1px solid var(--border);border-radius:2px;padding:.9rem 1rem;cursor:pointer;transition:all .2s;text-align:left;}
+.sitemap-card:hover{border-color:var(--gold);background:var(--cream);transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow);}
+.sitemap-num{font-family:'Dancing Script',cursive;font-size:1.5rem;font-weight:300;color:var(--gold);opacity:.4;line-height:1;margin-bottom:.3rem;}
+.sitemap-en{font-family:'Dancing Script',cursive;font-style:italic;font-size:.78rem;color:var(--gold);display:block;margin-bottom:.15rem;}
+.sitemap-title{font-family:'Dancing Script',cursive;font-size:1rem;font-weight:400;}
+.sitemap-desc{font-size:.68rem;color:var(--muted);margin-top:.25rem;line-height:1.55;}
+.sitemap-arr{display:block;text-align:right;color:var(--border);font-size:.8rem;margin-top:.4rem;transition:color .2s;}
+.sitemap-card:hover .sitemap-arr{color:var(--gold);}
+@media(max-width:900px){.sitemap-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:640px){.sitemap-grid{grid-template-columns:repeat(2,1fr);}.how-steps{flex-direction:column;}.how-step+.how-step::before{content:'↓';left:50%;top:0;transform:translateX(-50%);}}
 .ate-filter-bar{display:flex;flex-wrap:wrap;gap:.4rem;padding:0 0 1.2rem;}
 .ate-tag{background:transparent;border:1px solid var(--border);border-radius:3px;padding:.28rem .7rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:.35rem;}
 .ate-tag:hover,.ate-tag.active{background:var(--ink);color:var(--parchment);border-color:var(--ink);}
@@ -549,6 +589,202 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
 
 <div class="intro-page">
 
+  <!-- ══ 1. 使用說明 ══ -->
+
+  <!-- 1-1 套用參考模板 -->
+  <div class="how-block">
+    <div class="intro-block-head">
+      <div class="ib-num">1</div>
+      <div>
+        <div class="ib-title">套用參考模板</div>
+        <span class="ib-en">COPY FROM TEMPLATE — 最快速的抄作業方法</span>
+      </div>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-n">STEP 01</div>
+        <div class="how-step-icon">🖼️</div>
+        <div class="how-step-title">找一張喜歡的圖</div>
+        <div class="how-step-desc">在「寫真沙龍」或「成衣型錄」找到你喜歡的風格</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 02</div>
+        <div class="how-step-icon">🔗</div>
+        <div class="how-step-title">點圖進 PixAI</div>
+        <div class="how-step-desc">點擊圖片，會自動跳到對應的 PixAI 作品頁面</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 03</div>
+        <div class="how-step-icon">📋</div>
+        <div class="how-step-title">點「參考模板」</div>
+        <div class="how-step-desc">作品頁右上角有「參考模板」按鈕，點下去載入所有設定</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 04</div>
+        <div class="how-step-icon">✏️</div>
+        <div class="how-step-title">換上你的人設</div>
+        <div class="how-step-desc">把 prompt 最前面的人物描述換成你自己的角色詞條</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 05</div>
+        <div class="how-step-icon">✨</div>
+        <div class="how-step-title">直接生成</div>
+        <div class="how-step-desc">其他參數不用動，按生成就能出同款風格</div>
+      </div>
+    </div>
+    <div class="how-video">
+      <div class="how-video-ph">▶ 影片教學預留位置 — 有影片後填入</div>
+    </div>
+  </div>
+
+  <!-- 1-2 組詞教學 -->
+  <div class="how-block">
+    <div class="intro-block-head">
+      <div class="ib-num">2</div>
+      <div>
+        <div class="ib-title">自己組合服裝詞條</div>
+        <span class="ib-en">BUILD YOUR OWN PROMPT — 進階玩法</span>
+      </div>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-step-n">STEP 01</div>
+        <div class="how-step-icon">🗂️</div>
+        <div class="how-step-title">查經典衣櫃</div>
+        <div class="how-step-desc">先確認目標款式是否有現成詞條，有的話直接複製最穩</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 02</div>
+        <div class="how-step-icon">🧵</div>
+        <div class="how-step-title">進製衣工坊選模組</div>
+        <div class="how-step-desc">版型 → 材質 → 剪裁 → 顏色 → 點綴，依序挑選詞條</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 03</div>
+        <div class="how-step-icon">📝</div>
+        <div class="how-step-title">組合貼上</div>
+        <div class="how-step-desc">把選好的詞條拼在一起，貼到人設描述後面</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-n">STEP 04</div>
+        <div class="how-step-icon">⚖️</div>
+        <div class="how-step-title">調整權重</div>
+        <div class="how-step-desc">效果不夠明顯時用括號提高：<code style="font-family:'Space Mono',monospace;font-size:.68rem;background:var(--cream);padding:.02rem .3rem;">(keyword:1.3)</code></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 2. 導覽地圖 ══ -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">3</div>
+      <div><div class="ib-title">網站導覽</div><span class="ib-en">SITE MAP</span></div>
+    </div>
+    <div class="sitemap-grid">
+      <button class="sitemap-card" onclick="goTabByID('archives')">
+        <div class="sitemap-num">01</div>
+        <span class="sitemap-en">The Archives</span>
+        <div class="sitemap-title">經典衣櫃</div>
+        <div class="sitemap-desc">模型原生支援的款式詞條，附封面示意圖與五模型對比，直接複製就能用。</div>
+        <span class="sitemap-arr">→</span>
+      </button>
+      <button class="sitemap-card" onclick="goTabByID('atelier')">
+        <div class="sitemap-num">02</div>
+        <span class="sitemap-en">The Atelier</span>
+        <div class="sitemap-title">製衣工坊</div>
+        <div class="sitemap-desc">五大模組元件：版型、材質、剪裁、顏色、點綴，自由組合出想要的服裝。</div>
+        <span class="sitemap-arr">→</span>
+      </button>
+      <button class="sitemap-card" onclick="goTabByID('outfits')">
+        <div class="sitemap-num">03</div>
+        <span class="sitemap-en">The Outfit Catalogue</span>
+        <div class="sitemap-title">成衣型錄</div>
+        <div class="sitemap-desc">整套穿搭組合，純服裝 prompt，可直接套用或拆解使用，附 PixAI 範本連結。</div>
+        <span class="sitemap-arr">→</span>
+      </button>
+      <button class="sitemap-card" onclick="goTabByID('salon')">
+        <div class="sitemap-num">04</div>
+        <span class="sitemap-en">The Photography Studio</span>
+        <div class="sitemap-title">寫真沙龍</div>
+        <div class="sitemap-desc">不同主題場景的完整 prompt 分享，附 PixAI 範本連結，可直接替換人設試穿。</div>
+        <span class="sitemap-arr">→</span>
+      </button>
+      <button class="sitemap-card" onclick="goTabByID('qa')">
+        <div class="sitemap-num">05</div>
+        <span class="sitemap-en">Troubleshooting Q&amp;A</span>
+        <div class="sitemap-title">常見問題</div>
+        <div class="sitemap-desc">圖出來不對勁？服裝跑掉？LoRA 怎麼用？常見問題和排錯方法都在這裡。</div>
+        <span class="sitemap-arr">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ 3. 使用模型 ══ -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">4</div>
+      <div><div class="ib-title">使用模型</div><span class="ib-en">MODELS & CONFIGURATION</span></div>
+    </div>
+    <div class="model-cards">
+      <a class="model-card" href="https://pixai.art/model/1874095126418918009" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/ChocoMint.jpg" alt="ChocoMint Mix" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">01</div>
+          <div class="model-card-name">ChocoMint Mix</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1825497827039510248" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/coco_illus.jpg" alt="coco" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">02</div>
+          <div class="model-card-name">coco-Illustrious-NoobXL-Style</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1928756640085993575" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/illus_mix2.jpg" alt="illustrious_Mix2" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">03</div>
+          <div class="model-card-name">illustrious_Mix2</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1840638240479764095" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/plant_milk.jpg" alt="Plant Milk" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">04</div>
+          <div class="model-card-name">Plant Milk 🌿 - Model Suite</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+      <a class="model-card" href="https://pixai.art/model/1954632827019711809" target="_blank" rel="noopener">
+        <div class="model-card-thumb"><img src="assets/models/hoshino_v2.jpg" alt="Hoshino v2" loading="lazy"></div>
+        <div class="model-card-body">
+          <div class="model-card-id">05</div>
+          <div class="model-card-name">Hoshino v2</div>
+          <div class="model-card-link">在 PixAI 開啟 <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" width="10" height="10"><path d="M2 10L10 2M10 2H5M10 2v5"/></svg></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ══ 4. 備註 ══ -->
+  <div class="intro-block">
+    <div class="intro-block-head">
+      <div class="ib-num">5</div>
+      <div><div class="ib-title">備註</div><span class="ib-en">NOTES & TIPS</span></div>
+    </div>
+    <div class="notes-list">
+      <div class="note-item"><span class="note-bullet">◆</span><span>本手冊所有提示詞以 <strong>SDXL 架構</strong>為測試基準，DiT架構的模型及不同生圖平台的識別率可能有差異。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>權重建議值為參考範圍，<strong>模型不同、配置不同都會影響效果</strong>。如果效果偏弱可嘗試調高 0.1–0.2，過度強調會導致畫面失真。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>成衣型錄的「套裝提案」是本人嘗試過的不同紀錄，可作為靈感與參考。</span></div>
+      <div class="note-item"><span class="note-bullet">◆</span><span>手冊持續更新中，有新的詞條測試結果或組合配方會慢慢補充到對應區塊。</span></div>
+    </div>
+  </div>
+
+</div>
+
   <!-- Block 1: About -->
   <div class="intro-block">
     <div class="intro-block-head">
@@ -776,11 +1012,7 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <div class="sb-head">MODULES</div>
         <div class="sb-link" onclick="openAteInfoModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">欄目說明</div>
         <div class="sb-link" onclick="openComboModal()" style="color:var(--muted);font-size:.7rem;letter-spacing:.05em;">組合示範</div>
-        <div class="sb-link active" onclick="scrollTo2('ma01','ate-toc',this)"><span class="sb-dot"></span>01 基礎版型</div>
-        <div class="sb-link" onclick="scrollTo2('ma02','ate-toc',this)"><span class="sb-dot"></span>02 材質面料</div>
-        <div class="sb-link" onclick="scrollTo2('ma03','ate-toc',this)"><span class="sb-dot"></span>03 剪裁工藝</div>
-        <div class="sb-link" onclick="scrollTo2('ma04','ate-toc',this)"><span class="sb-dot"></span>04 顏色系統</div>
-        <div class="sb-link" onclick="scrollTo2('ma05','ate-toc',this)"><span class="sb-dot"></span>05 其他點綴</div>
+        <!-- ATELIER_TOC -->
       </div>
     </div>
     <div>
@@ -1259,8 +1491,35 @@ function filterArc(btn,cat){
   });
 }
 
-// 製衣工坊篩選
-function ateFilter(btn, mod){
+// 製衣工坊 sidebar 展開/收合
+function ateTocToggle(el, catId) {
+  const subs = document.getElementById("toc-subs-" + catId);
+  if (!subs) {
+    // 沒有子分類，直接跳轉
+    ateScrollTo(catId);
+    return;
+  }
+  const isOpen = subs.classList.contains("open");
+  subs.classList.toggle("open", !isOpen);
+  el.classList.toggle("open", !isOpen);
+  if (!isOpen) ateScrollTo(catId);
+}
+function ateScrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    setTimeout(() => {
+      const off = el.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: off, behavior: "smooth" });
+    }, 40);
+  }
+  // 更新 active 狀態
+  document.querySelectorAll(".ate-toc-sub").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".ate-toc-cat").forEach(s => s.classList.remove("active"));
+  const subEl = document.querySelector(`.ate-toc-sub[onclick*="${id}"]`);
+  const catEl = document.querySelector(`.ate-toc-cat[onclick*="${id}"]`);
+  if (subEl) subEl.classList.add("active");
+  if (catEl) catEl.classList.add("active");
+}
   document.querySelectorAll('.ate-tag').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.ate-entry').forEach(el=>{
