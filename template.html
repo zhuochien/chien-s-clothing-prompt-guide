@@ -1090,6 +1090,17 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
           <div class="qa-q" onclick="toggleQA(this)">同樣的 prompt 換模型後效果差很多<span class="qa-q-arrow">▼</span></div>
           <div class="qa-a">這是正常現象。不同底模對詞條的認識程度不一樣，建議：<br>① 先在多個模型各跑幾張觀察差異<br>② 經典衣櫃的對比圖可以幫助快速判斷哪個模型比較能識別該款服裝<br>③ 認識度低的模型可以加強詞條權重補救</div>
         </div>
+
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">同一個模型有很多版本，版本不同有差嗎？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">有差，而且有時候差很多。以 Plant Milk 為例，不同版本在畫風細膩度、色調傾向和人物風格上都有明顯差異，同樣的 prompt 在不同版本上跑出來的感覺可能完全不同。<br><br>建議自己多試幾個找到喜歡的感覺。以 Plant Milk 為例，個人目前最常用的是 <strong>Plant Milk Almond</strong>，如果不知道從哪個版本開始可以先試這個。</div>
+        </div>
+        
+        <div class="qa-item">
+          <div class="qa-q" onclick="toggleQA(this)">要去哪裡選擇模型版本？<span class="qa-q-arrow">▼</span></div>
+          <div class="qa-a">在 PixAI 的生圖介面裡，點擊模型名稱旁邊的版本號，就可以展開版本選單切換。<br><br>
+        <button class="cp-btn" style="margin-top:.4rem;" onclick="openLightbox('assets/guide/model-version.jpg','如何選擇模型版本')">📷 圖片說明</button>
+       </div>
       </div>
 
       <!-- 其他問題 -->
