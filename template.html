@@ -799,33 +799,6 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
       <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">所有服裝詞條男女皆可使用，分類僅供參考，依據常見穿搭習慣大致歸類。</p>
     </div>
   </div>
-  <div style="max-width:1200px;margin:0 auto;padding:0 2rem 1.5rem;">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:3px;overflow:hidden;">
-    <div style="padding:.7rem 1.2rem;background:var(--ink);color:var(--parchment);display:flex;align-items:center;gap:.8rem;">
-      <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;opacity:.5;">SAMPLE CONFIG</div>
-      <div style="font-family:'Dancing Script',cursive;font-size:1rem;">範例圖生成參數</div>
-    </div>
-    <div style="padding:.85rem 1.2rem;display:flex;gap:2rem;flex-wrap:wrap;align-items:center;">
-      <div style="display:flex;align-items:center;gap:.5rem;">
-        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">STEPS</span>
-        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">16</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:.5rem;">
-        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">CFG</span>
-        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">3.1</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:.5rem;">
-        <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">SAMPLER</span>
-        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">Euler a</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:.5rem;">
-        <span style="font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;color:var(--muted);">面部修復</span>
-        <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">開啟</span>
-      </div>
-      <div style="font-size:.72rem;color:var(--muted);margin-left:auto;line-height:1.6;">所有範例圖均單以模型搭配固定參數生成，未搭配 LoRA ，方便直觀比較。</div>
-    </div>
-  </div>
-</div>
   <div class="with-sidebar">
     <div class="sidebar">
       <div class="sb-box" id="arc-toc">
@@ -1224,6 +1197,26 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;paddi
         <button onclick="closeArcModal()" style="background:none;border:1px solid rgba(245,240,232,.2);color:rgba(245,240,232,.6);font-family:'Space Mono',monospace;font-size:.58rem;padding:.22rem .6rem;cursor:pointer;border-radius:2px;">✕</button>
       </div>
     </div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;align-items:center;padding:.6rem 1.2rem;background:var(--cream);border-bottom:1px solid var(--border);">
+  <div style="display:flex;align-items:center;gap:.5rem;">
+    <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">STEPS</span>
+    <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">16</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:.5rem;">
+    <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">CFG</span>
+    <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">3.1</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:.5rem;">
+    <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">SAMPLER</span>
+    <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">Euler a</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:.5rem;">
+    <span style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--muted);">面部修復</span>
+    <span style="font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ink);font-weight:700;">開啟</span>
+  </div>
+  <div style="margin-left:auto;font-size:.72rem;color:var(--muted);">未搭配 LoRA，方便直觀比較。</div>
+</div>
+<div id="arc-modal-grid" class="tg5" style="border-bottom:none;"></div>
     <div id="arc-modal-grid" class="tg5" style="border-bottom:none;"></div>
   </div>
 </div>
