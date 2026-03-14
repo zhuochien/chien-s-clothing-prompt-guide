@@ -282,65 +282,110 @@ function buildSalon(pages) {
 }
 
 function buildOutfits(pages) {
-  const groups = { "女": [], "男": [] };
+  // 欄位：性別(select)  簡單分類(select)  名稱(title)  Prompt  示意圖  PixAI連結
+  function toOId(str) {
+    return "out-" + str.replace(/\s+/g, "-").replace(/[^\w\u4e00-\u9fff-]/g, "");
+  }
+
+  // 建立 性別 → 子分類 → 詞條 的巢狀結構，保留出現順序
+  // 固定大分類順序：女 → 男
+  const GENDER_ORDER = [["女", "female"], ["男", "male"]];
+  const subOrder = {};  // gender -> [sub, ...]
+  const items    = {};  // gender -> sub -> [p, ...]
+
   for (const page of pages) {
     const p      = page.properties;
     const gender = text(p["性別"]) || "女";
-    if (!groups[gender]) groups[gender] = [];
-    groups[gender].push(p);
+    const sub    = text(p["簡單分類"]) || "";
+
+    if (!items[gender]) { items[gender] = {}; subOrder[gender] = []; }
+    if (!items[gender][sub]) { items[gender][sub] = []; subOrder[gender].push(sub); }
+    items[gender][sub].push(p);
   }
 
   let toc    = "";
   let filter = `<button class="f-btn active" onclick="filterOutfit(this,'all')">全部</button>`;
   let html   = "";
 
-  [["女","female"],["男","male"]].forEach(([gender, slug], idx) => {
-    const items = groups[gender];
-    if (!items.length) return;
-    const first = idx === 0 ? " active" : "";
+  GENDER_ORDER.forEach(([gender, slug], idx) => {
+    if (!items[gender]) return;
+    const catId  = toOId(gender);
+    const hasSub = subOrder[gender].some(s => s !== "");
+    const first  = idx === 0 ? " active" : "";
 
-    toc    += `<div class="sb-link${first}" onclick="scrollTo2('outfit-${slug}','outfit-toc',this)"><span class="sb-dot"></span>${gender}模特兒</div>`;
+    // ── sidebar TOC ──
+    toc += `
+<div class="ate-toc-cat${first}" onclick="outfitTocToggle(this,'${catId}')">
+  <span class="sb-dot"></span>
+  <span>${gender}模特兒</span>
+  ${hasSub ? `<span class="ate-toc-arrow">▾</span>` : ""}
+</div>`;
+    if (hasSub) {
+      toc += `<div class="ate-toc-subs" id="toc-subs-${catId}">`;
+      for (const sub of subOrder[gender]) {
+        if (!sub) continue;
+        const subId = toOId(gender + "-" + sub);
+        toc += `<div class="ate-toc-sub" onclick="outfitScrollTo('${subId}')">${esc(sub)}</div>`;
+      }
+      toc += `</div>`;
+    }
+
     filter += `<button class="f-btn" onclick="filterOutfit(this,'${slug}')">${gender}</button>`;
 
-    html += `<div id="outfit-${slug}" data-ocat="${slug}" style="margin-top:2rem;">`;
+    // ── 主內容 ──
+    html += `<div id="${catId}" data-ocat="${slug}" style="margin-top:2rem;">`;
     html += `<div class="sub-label"><span class="sub-code">${gender}模特兒</span></div>`;
-    html += `<div class="outfit-runway">`;
 
-    for (const p of items) {
-      const name     = esc(text(p["名稱"]));
-      const prompt   = esc(text(p["Prompt"]));
-      const imgs     = text(p["示意圖"]) || [];
-      const pixaiUrl = p["PixAI連結"]?.url || "";
-      const cid      = `oc-${Math.random().toString(36).slice(2,8)}`;
+    for (const sub of subOrder[gender]) {
+      const subId = toOId(gender + "-" + sub);
 
-      html += `<div class="outfit-card"><div class="outfit-img" id="${cid}">`;
-      if (imgs.length === 0) {
-        html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
-      } else if (imgs.length === 1) {
-        if (pixaiUrl) {
-          html += `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;"><img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></a>`;
-        } else {
-          html += `<img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
-        }
-      } else {
-        html += `<div class="outfit-slides" id="${cid}-slides">`;
-        imgs.forEach(u => { html += `<img src="${esc(u)}" alt="${name}" loading="lazy">`; });
-        html += `</div>`;
-        html += `<button class="outfit-arr prev" onclick="outfitSlide('${cid}',-1)">‹</button>`;
-        html += `<button class="outfit-arr next" onclick="outfitSlide('${cid}',1)">›</button>`;
-        html += `<div class="outfit-dots" id="${cid}-dots">`;
-        imgs.forEach((_,i) => { html += `<div class="outfit-dot${i===0?' active':''}" onclick="outfitGo('${cid}',${i})"></div>`; });
-        html += `</div>`;
+      if (sub) {
+        html += `<div id="${subId}" class="out-sub-block">`;
+        html += `<div class="ate-sub-label">${esc(sub)}</div>`;
       }
-      const pid2 = `op-${Math.random().toString(36).slice(2,8)}`;
-      html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
-      html += `<div class="rtw-prompt-wrap">`;
-      html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
-      html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
-      html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
-      html += `</div></div></div>`;
+
+      html += `<div class="outfit-runway">`;
+
+      for (const p of items[gender][sub]) {
+        const name     = esc(text(p["名稱"]));
+        const prompt   = esc(text(p["Prompt"]));
+        const imgs     = text(p["示意圖"]) || [];
+        const pixaiUrl = p["PixAI連結"]?.url || "";
+        const cid      = `oc-${Math.random().toString(36).slice(2, 8)}`;
+
+        html += `<div class="outfit-card"><div class="outfit-img" id="${cid}">`;
+        if (imgs.length === 0) {
+          html += `<div class="rtw-img-ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>`;
+        } else if (imgs.length === 1) {
+          if (pixaiUrl) {
+            html += `<a href="${esc(pixaiUrl)}" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;"><img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;"></a>`;
+          } else {
+            html += `<img src="${esc(imgs[0])}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">`;
+          }
+        } else {
+          html += `<div class="outfit-slides" id="${cid}-slides">`;
+          imgs.forEach(u => { html += `<img src="${esc(u)}" alt="${name}" loading="lazy">`; });
+          html += `</div>`;
+          html += `<button class="outfit-arr prev" onclick="outfitSlide('${cid}',-1)">‹</button>`;
+          html += `<button class="outfit-arr next" onclick="outfitSlide('${cid}',1)">›</button>`;
+          html += `<div class="outfit-dots" id="${cid}-dots">`;
+          imgs.forEach((_, i) => { html += `<div class="outfit-dot${i === 0 ? ' active' : ''}" onclick="outfitGo('${cid}',${i})"></div>`; });
+          html += `</div>`;
+        }
+        const pid2 = `op-${Math.random().toString(36).slice(2, 8)}`;
+        html += `</div><div class="outfit-body"><div class="rtw-name">${name}</div>`;
+        html += `<div class="rtw-prompt-wrap">`;
+        html += `<div class="rtw-foot"><button class="cp-btn" onclick="cp(this,'${prompt}')">COPY</button></div>`;
+        html += `<div class="rtw-prompt" id="${pid2}">${prompt}</div>`;
+        html += `<div class="toggle-bar" onclick="togglePrompt('${pid2}',this)"><span class="toggle-label">展開</span><span class="toggle-arrow">▼</span></div>`;
+        html += `</div></div></div>`;
+      }
+
+      html += `</div>`; // .outfit-runway
+      if (sub) html += `</div>`; // .out-sub-block
     }
-    html += `</div></div>`;
+
+    html += `</div>`; // data-ocat
   });
 
   return { html, toc, filter };
