@@ -915,7 +915,23 @@ footer{background:var(--ink);color:rgba(245,240,232,.28);text-align:center;font-
       </div>
     </div>
     <div>
-      <div class="filter-bar">
+      <!-- 搜尋框 -->
+      <div class="ate-search-bar">
+        <input
+          id="arc-search-input"
+          type="text"
+          placeholder="搜尋詞條或中文名稱⋯⋯按 Enter"
+          onkeydown="if(event.key==='Enter')arcSearch()"
+        >
+        <button onclick="arcSearch()">搜尋</button>
+        <button onclick="arcClearSearch()" id="arc-search-clear" style="display:none;">✕ 清除</button>
+      </div>
+      <div id="arc-search-results" style="display:none;">
+        <div class="ate-search-count" id="arc-search-count"></div>
+        <div id="arc-search-list"></div>
+      </div>
+
+      <div class="filter-bar" id="arc-filter-bar">
         <span class="f-label">FILTER</span>
         <!-- ARCHIVES_FILTER -->
       </div>
@@ -1681,6 +1697,64 @@ function arcModalCopy() {
 document.getElementById("arc-modal").addEventListener("click", function(e) {
   if (e.target === this) closeArcModal();
 });
+
+// ── 經典衣櫃搜尋 ──
+function arcSearch() {
+  const q = document.getElementById('arc-search-input').value.trim().toLowerCase();
+  const resultsWrap = document.getElementById('arc-search-results');
+  const clearBtn = document.getElementById('arc-search-clear');
+
+  if (!q) {
+    arcClearSearch();
+    return;
+  }
+
+  // 收集所有 .arc-card
+  const allCards = document.querySelectorAll('#archives .arc-card');
+  const matches = [];
+
+  allCards.forEach(card => {
+    const en = card.querySelector('.ac-en')?.textContent.toLowerCase() || '';
+    const zh = card.querySelector('.ac-zh')?.textContent.toLowerCase() || '';
+    const prompt = card.querySelector('.pt')?.textContent.toLowerCase() || '';
+    if (en.includes(q) || zh.includes(q) || prompt.includes(q)) {
+      matches.push(card.cloneNode(true));
+    }
+  });
+
+  // 顯示結果
+  const list = document.getElementById('arc-search-list');
+  const count = document.getElementById('arc-search-count');
+  list.innerHTML = '';
+
+  if (matches.length === 0) {
+    count.textContent = `找不到「${q}」的相關詞條`;
+    list.innerHTML = '<div style="color:var(--muted);font-size:.78rem;padding:.5rem 0;">試試看其他關鍵字，或直接瀏覽下方分類</div>';
+  } else {
+    count.textContent = `找到 ${matches.length} 筆關於「${q}」的詞條`;
+    const grid = document.createElement('div');
+    grid.className = 'arc-grid';
+    matches.forEach(el => grid.appendChild(el));
+    list.appendChild(grid);
+  }
+
+  resultsWrap.style.display = 'block';
+  clearBtn.style.display = '';
+
+  // 隱藏原本的分類內容及 filter bar
+  document.querySelectorAll('#archives .arc-grid').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('#archives .sub-label').forEach(el => el.style.display = 'none');
+  document.getElementById('arc-filter-bar').style.display = 'none';
+}
+
+function arcClearSearch() {
+  document.getElementById('arc-search-input').value = '';
+  document.getElementById('arc-search-results').style.display = 'none';
+  document.getElementById('arc-search-clear').style.display = 'none';
+  document.querySelectorAll('#archives .arc-grid').forEach(el => el.style.display = '');
+  document.querySelectorAll('#archives .sub-label').forEach(el => el.style.display = '');
+  document.getElementById('arc-filter-bar').style.display = '';
+}
 </script>
 </body>
 </html>
