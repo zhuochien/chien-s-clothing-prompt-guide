@@ -1679,8 +1679,10 @@ document.getElementById("arc-modal").addEventListener("click", function(e) {
 // ══════════════════════════════════
 function highlightText(text, q) {
   if (!q) return text;
+  // 先 escape HTML，避免 textContent 解碼後的字元被 innerHTML 當成標籤執行
+  const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return text.replace(new RegExp(escaped, 'gi'), m => `<mark style="background:rgba(184,150,62,.35);border-radius:2px;padding:0 1px;">${m}</mark>`);
+  return safe.replace(new RegExp(escaped, 'gi'), m => `<mark style="background:rgba(184,150,62,.35);border-radius:2px;padding:0 1px;">${m}</mark>`);
 }
 
 // ══════════════════════════════════
