@@ -1716,7 +1716,7 @@ function arcSearch() {
   allCards.forEach(card => {
     const en = card.querySelector('.ac-en')?.textContent.toLowerCase() || '';
     const zh = card.querySelector('.ac-zh')?.textContent.toLowerCase() || '';
-    const prompt = card.querySelector('.pt')?.textContent.toLowerCase() || '';
+    const prompt = card.querySelector('.ac-prompt')?.textContent.toLowerCase() || '';
     if (en.includes(q) || zh.includes(q) || prompt.includes(q)) {
       matches.push(card.cloneNode(true));
     }
