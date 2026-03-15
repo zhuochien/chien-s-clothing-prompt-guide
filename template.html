@@ -1679,7 +1679,6 @@ document.getElementById("arc-modal").addEventListener("click", function(e) {
 // ══════════════════════════════════
 function highlightText(text, q) {
   if (!q) return text;
-  // 先 escape HTML，避免 textContent 解碼後的字元被 innerHTML 當成標籤執行
   const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return safe.replace(new RegExp(escaped, 'gi'), m => `<mark style="background:rgba(184,150,62,.35);border-radius:2px;padding:0 1px;">${m}</mark>`);
@@ -1838,15 +1837,15 @@ function comboClear() {
 function comboRender() {
   const el = document.getElementById('combo-result');
   if (_comboTerms.length === 0) {
-    el.innerHTML = '<span class="combo-empty">尚未加入任何詞條</span>';
+    el.innerHTML = '<span style="color:var(--muted);font-size:.65rem;">尚未加入任何詞條</span>';
     return;
   }
   el.innerHTML = _comboTerms.map((t, i) =>
-    `<span class="combo-tag">
-      <span class="combo-tag-text">${t}</span>
-      <button onclick="comboRemove(${i})" class="combo-tag-remove" title="移除">✕</button>
+    `<span style="display:inline-flex;align-items:center;gap:.25rem;background:var(--card);border:1px solid var(--border);border-radius:3px;padding:.1rem .45rem;margin:.15rem .2rem .15rem 0;">
+      <span style="font-family:'Space Mono',monospace;font-size:.68rem;">${t}</span>
+      <button onclick="comboRemove(${i})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0;line-height:1;" title="移除">✕</button>
     </span>`
-  ).join('') + `<div class="combo-preview">${_comboTerms.join(', ')}</div>`;
+  ).join('') + `<div style="margin-top:.45rem;padding-top:.4rem;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.65rem;color:var(--gold);">${_comboTerms.join(', ')}</div>`;
 }
 
 function comboCopy() {
