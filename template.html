@@ -1928,6 +1928,7 @@ function gcMoveTo(containerId) {
   const panel = _gcPanel();
   if (!container || !panel) return;
   container.appendChild(panel);
+  container.style.display = 'block';   // 顯示外層容器
   panel.style.display = 'block';
   gcRender();
 }
@@ -1935,7 +1936,13 @@ function gcMoveTo(containerId) {
 // 主動關閉（✕ 按鈕）
 function gcCloseActive() {
   const panel = _gcPanel();
-  if (panel) panel.style.display = 'none';
+  if (panel) {
+    const container = panel.parentElement;
+    panel.style.display = 'none';
+    if (container && container.classList.contains('g-composer-panel')) {
+      container.style.display = 'none';
+    }
+  }
   _gc.isOpen = false;
 }
 
@@ -1947,8 +1954,13 @@ function gcToggle(containerId) {
   // 已在此容器且是開著的 → 收合
   if (panel.parentElement === container && panel.style.display !== 'none') {
     panel.style.display = 'none';
+    container.style.display = 'none';
     _gc.isOpen = false;
     return;
+  }
+  // 如果之前在別的容器，先把舊容器隱藏
+  if (panel.parentElement && panel.parentElement.classList.contains('g-composer-panel')) {
+    panel.parentElement.style.display = 'none';
   }
   // 搬移並顯示
   gcMoveTo(containerId);
@@ -1961,7 +1973,7 @@ function gcRestorePanel() {
   const activeSection = document.querySelector('.section.active');
   if (!activeSection) return;
   const container = activeSection.querySelector('.g-composer-panel');
-  if (!container) return;
+  if (!container || !container.id) return;
   gcMoveTo(container.id);
 }
 
