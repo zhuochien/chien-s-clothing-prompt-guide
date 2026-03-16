@@ -181,7 +181,8 @@ async function buildArchives(pages) {
       html += `<div class="ac-info"><div class="ac-en">${en}</div><div class="ac-zh">${zh}</div><div class="ac-prompt">${prompt}</div></div>`;
       html += `<div class="ac-foot">`;
       html += `<button class="cp-btn" data-p="${prompt}" onclick="event.stopPropagation();cp(this,this.dataset.p)">COPY</button>`;
-      html += `<button class="cp-btn" data-en="${en}" data-p="${prompt}" onclick="event.stopPropagation();openArcModal(this.dataset.en,this.dataset.p,${imgData},${lblData})" style="margin-left:.4rem;">模型對比</button>`;
+      html += `<button class="cp-btn" data-p="${prompt}" onclick="event.stopPropagation();gComposerAdd(this,this.dataset.p)" style="margin-left:.3rem;" title="加入組詞器">＋</button>`;
+      html += `<button class="cp-btn" data-en="${en}" data-p="${prompt}" onclick="event.stopPropagation();openArcModal(this.dataset.en,this.dataset.p,${imgData},${lblData})" style="margin-left:.3rem;">模型對比</button>`;
       html += `</div></div>`;
     }
     html += `</div></div>`;
